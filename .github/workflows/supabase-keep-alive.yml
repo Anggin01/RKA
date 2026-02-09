@@ -1,0 +1,35 @@
+name: Supabase Keep-Alive
+
+# Jalankan setiap hari jam 8 pagi WIB (1 AM UTC)
+on:
+  schedule:
+    - cron: '0 1 * * *'  # Setiap hari jam 1:00 UTC (8:00 WIB)
+  workflow_dispatch:  # Bisa juga dijalankan manual
+
+jobs:
+  keep-alive:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Ping Supabase Database
+        run: |
+          echo "Pinging Supabase to keep project alive..."
+          
+          # Ping menggunakan Supabase REST API
+          response=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/pagu_seksi?select=seksi_id&limit=1" \
+            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
+            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+          
+          if [ "$response" = "200" ]; then
+            echo "✅ Keep-alive ping successful! HTTP Status: $response"
+            echo "📅 Timestamp: $(date)"
+          else
+            echo "❌ Keep-alive ping failed! HTTP Status: $response"
+            exit 1
+          fi
+
+      - name: Log Success
+        run: |
+          echo "🎉 Supabase project kept alive successfully!"
+          echo "Next ping scheduled for tomorrow."
