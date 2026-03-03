@@ -612,8 +612,7 @@
     flex-wrap: wrap;
 }
 
-.meta-date,
-.meta-budget {
+.meta-date {
     font-size: 0.85rem;
     color: #1e3a5f;
     display: flex;
@@ -621,12 +620,31 @@
     gap: 6px;
 }
 
-.meta-budget {
-    background: #fef3c7;
+.meta-budgets {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.meta-budget,
+.meta-realization {
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     padding: 6px 12px;
     border-radius: 20px;
     font-weight: 600;
+}
+
+.meta-budget {
+    background: #fef3c7;
     color: #d97706;
+}
+
+.meta-realization {
+    background: #dcfce7;
+    color: #15803d;
 }
 
 .workplan-actions {
@@ -1362,6 +1380,7 @@
         font-size: 0.85rem;
     }
 }
+
 /* Realization Input Styling */
 .realization-input input {
     color: #2563eb;

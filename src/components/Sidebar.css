@@ -175,6 +175,17 @@
   border-color: rgba(251, 191, 36, 0.4);
 }
 
+.menu-item.settings-item {
+  background: rgba(251, 191, 36, 0.05);
+  border: 1px solid rgba(251, 191, 36, 0.1);
+}
+
+.menu-item.settings-item:hover,
+.menu-item.settings-item.active {
+  background: linear-gradient(90deg, rgba(251, 191, 36, 0.2) 0%, rgba(251, 191, 36, 0.05) 100%);
+  border-color: rgba(251, 191, 36, 0.4);
+}
+
 /* Menu Icons */
 .menu-icon {
   font-size: 1.2rem;

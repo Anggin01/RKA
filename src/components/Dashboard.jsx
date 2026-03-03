@@ -135,9 +135,9 @@ const Dashboard = () => {
 
     const greeting = getGreeting();
 
-    // Budget data calculated from work plans
-    const totalPagu = sectionBudgets.reduce((sum, s) => sum + s.totalPagu, 0);
-    const terpakai = calculateTotalUsedBudget();
+    // Budget data calculated from sectionBudgets state
+    const totalPagu = sectionBudgets.reduce((sum, s) => sum + (s.totalPagu || 0), 0);
+    const terpakai = sectionBudgets.reduce((sum, s) => sum + (s.terpakai || 0), 0);
     const sisa = totalPagu - terpakai;
 
     // Calendar helper functions

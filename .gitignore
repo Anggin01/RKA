@@ -1,3 +1,11 @@
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Nested repo folder
+RKA/
+
 # Logs
 logs
 *.log

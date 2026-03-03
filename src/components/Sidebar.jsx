@@ -94,6 +94,20 @@ const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose }) => {
                         ))}
                     </div>
                 </div>
+
+                {/* Pengaturan Section */}
+                <div className="menu-section">
+                    <div className="section-title">PENGATURAN</div>
+                    <div className="menu-list">
+                        <button
+                            className={`menu-item settings-item ${activeMenu === 'settings' ? 'active' : ''}`}
+                            onClick={() => setActiveMenu('settings')}
+                        >
+                            <span className="menu-icon">⚙️</span>
+                            <span className="menu-label">Settings</span>
+                        </button>
+                    </div>
+                </div>
             </nav>
 
             {/* Footer */}

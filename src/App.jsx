@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import SectionContent from './components/SectionContent';
+import Settings from './components/Settings';
 import { startKeepAlive, stopKeepAlive } from './utils/storage';
 import './components/Sidebar.css';
 import './App.css';
@@ -66,6 +67,11 @@ function App() {
         subtitle: 'Seksi Reformasi Birokrasi dan Tata Kelola',
         color: '#1e40af'
       },
+      'settings': {
+        title: 'Pengaturan',
+        subtitle: 'Kelola admin dan izin akses',
+        color: '#1e40af'
+      },
     };
     return sections[activeMenu] || sections['dashboard'];
   };
@@ -80,6 +86,9 @@ function App() {
   const renderContent = () => {
     if (activeMenu === 'dashboard') {
       return <Dashboard />;
+    }
+    if (activeMenu === 'settings') {
+      return <Settings setActiveMenu={setActiveMenu} />;
     }
     return <SectionContent sectionId={activeMenu} sectionInfo={sectionInfo} />;
   };

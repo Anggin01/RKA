@@ -47,8 +47,10 @@ const SectionContent = ({ sectionId, sectionInfo }) => {
         setTimeout(() => setSaveStatus(''), 2000);
     };
 
-    // Calculate budget based on manual realization input
-    const terpakai = workPlans.reduce((sum, wp) => sum + (wp.realization || 0), 0);
+    // Calculate budget based on realization of completed tasks (consistent with storage.js)
+    const terpakai = workPlans
+        .filter(wp => wp.status === 'completed')
+        .reduce((sum, wp) => sum + (wp.realization || wp.budget || 0), 0);
     const sisa = pagu - terpakai;
     const usedPercentage = pagu > 0 ? Math.round((terpakai / pagu) * 100) : 0;
 
@@ -418,9 +420,14 @@ const SectionContent = ({ sectionId, sectionInfo }) => {
                                     {plan.description && <p className="workplan-desc">{plan.description}</p>}
                                     <div className="workplan-meta">
                                         <span className="meta-date">📅 {formatDate(plan.deadline)}</span>
-                                        {plan.budget > 0 && (
-                                            <span className="meta-budget">💵 {formatCurrency(plan.budget)}</span>
-                                        )}
+                                        <div className="meta-budgets">
+                                            {plan.budget > 0 && (
+                                                <span className="meta-budget">Pagu: {formatCurrency(plan.budget)}</span>
+                                            )}
+                                            {plan.status === 'completed' && (
+                                                <span className="meta-realization">Realisasi: {formatCurrency(plan.realization || 0)}</span>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="workplan-actions">
