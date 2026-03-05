@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { getWorkPlans, addWorkPlan, updateWorkPlan, deleteWorkPlan, getSectionPagu, updateSectionPagu } from '../utils/storage';
 import './SectionContent.css';
 
-const SectionContent = ({ sectionId, sectionInfo }) => {
+const SectionContent = ({ sectionId, sectionInfo, canEdit = true }) => {
     const [workPlans, setWorkPlans] = useState([]);
     const [pagu, setPagu] = useState(0);
     const [showAddModal, setShowAddModal] = useState(false);
@@ -213,6 +213,19 @@ const SectionContent = ({ sectionId, sectionInfo }) => {
                 </div>
             )}
 
+            {/* Read-Only Warning Banner */}
+            {!canEdit && (
+                <div className="readonly-banner">
+                    <div className="readonly-banner-content">
+                        <span className="readonly-icon">🔒</span>
+                        <div className="readonly-text">
+                            <strong>Mode Hanya Baca</strong>
+                            <p>Anda hanya memiliki izin untuk melihat data seksi ini. Hubungi Super Admin untuk mendapatkan izin edit.</p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Header */}
             {/* Header Biru Gelap (Kembali ke desain sebelumnya) */}
             <div className="section-header-box">
@@ -226,11 +239,18 @@ const SectionContent = ({ sectionId, sectionInfo }) => {
                     </div>
                 </div>
                 <div className="header-right">
-                    <div className="header-actions-new">
-                        <button className="btn-edit-seksi">
-                            <span>✏️</span> Edit Seksi
-                        </button>
-                    </div>
+                    {canEdit && (
+                        <div className="header-actions-new">
+                            <button className="btn-edit-seksi">
+                                <span>✏️</span> Edit Seksi
+                            </button>
+                        </div>
+                    )}
+                    {!canEdit && (
+                        <div className="header-actions-new">
+                            <span className="readonly-badge">👁️ Hanya Baca</span>
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -259,7 +279,7 @@ const SectionContent = ({ sectionId, sectionInfo }) => {
                 <div className="budget-cards-row">
                     <div className="budget-card-item pagu">
                         <div className="card-label">Pagu</div>
-                        {isEditingPagu ? (
+                        {isEditingPagu && canEdit ? (
                             <div className="pagu-edit">
                                 <input
                                     type="text"
@@ -272,7 +292,9 @@ const SectionContent = ({ sectionId, sectionInfo }) => {
                         ) : (
                             <div className="card-value">
                                 {formatCurrency(pagu)}
-                                <button className="btn-edit-pagu" onClick={() => setIsEditingPagu(true)}>✏️</button>
+                                {canEdit && (
+                                    <button className="btn-edit-pagu" onClick={() => setIsEditingPagu(true)}>✏️</button>
+                                )}
                             </div>
                         )}
                     </div>
@@ -398,9 +420,11 @@ const SectionContent = ({ sectionId, sectionInfo }) => {
                 </div>
                 <div className="rk-right">
                     <span className="activity-count-text">{workPlans.length} Kegiatan</span>
-                    <button className="btn-tambah-new" onClick={handleOpenAddModal}>
-                        <span>+</span> Tambah
-                    </button>
+                    {canEdit && (
+                        <button className="btn-tambah-new" onClick={handleOpenAddModal}>
+                            <span>+</span> Tambah
+                        </button>
+                    )}
                 </div>
             </div>
 
@@ -434,14 +458,16 @@ const SectionContent = ({ sectionId, sectionInfo }) => {
                                     <span className={`status-badge ${getStatusClass(plan.status)}`}>
                                         {getStatusLabel(plan.status)}
                                     </span>
-                                    <div className="action-buttons">
-                                        <button className="btn-action edit" onClick={() => handleOpenEditModal(plan)}>
-                                            ✏️ Edit
-                                        </button>
-                                        <button className="btn-action delete" onClick={() => handleDelete(plan.id)}>
-                                            🗑️ Hapus
-                                        </button>
-                                    </div>
+                                    {canEdit && (
+                                        <div className="action-buttons">
+                                            <button className="btn-action edit" onClick={() => handleOpenEditModal(plan)}>
+                                                ✏️ Edit
+                                            </button>
+                                            <button className="btn-action delete" onClick={() => handleDelete(plan.id)}>
+                                                🗑️ Hapus
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

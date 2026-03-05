@@ -1,6 +1,6 @@
 import './Sidebar.css';
 
-const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose }) => {
+const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose, user, onLogout }) => {
     const menuSections = [
         { id: 'tikim', label: 'Tikim', icon: '⚖️' },
         { id: 'inteldakim', label: 'Inteldakim', icon: '🔍' },
@@ -11,6 +11,26 @@ const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose }) => {
         { id: 'fasilitatif', label: 'Fasilitatif', icon: '🏢' },
         { id: 'reformasi-birokrasi', label: 'Reformasi Birokrasi', icon: '🏛️' },
     ];
+
+    const isSuperAdmin = user?.role === 'super_admin';
+    const isAdminSeksi = user?.role === 'admin_seksi';
+
+    // Filter menu items based on role
+    const getVisibleSections = () => {
+        if (isSuperAdmin) return menuSections;
+        if (isAdminSeksi) {
+            return menuSections.filter(m => m.id === user.seksiId);
+        }
+        return [];
+    };
+
+    const visibleSections = getVisibleSections();
+
+    const handleLogout = () => {
+        if (window.confirm('Apakah Anda yakin ingin keluar?')) {
+            onLogout();
+        }
+    };
 
     return (
         <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
@@ -65,24 +85,41 @@ const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose }) => {
                 </div>
             </div>
 
+            {/* User Role Badge */}
+            <div className="sidebar-user-badge">
+                <div className={`user-badge ${isSuperAdmin ? 'super-admin' : 'admin-seksi'}`}>
+                    <span className="badge-icon">{isSuperAdmin ? '👑' : '🏛️'}</span>
+                    <div className="badge-info">
+                        <span className="badge-name">{user?.displayName || 'User'}</span>
+                        <span className="badge-role">
+                            {isSuperAdmin ? 'Super Admin' : `Admin ${user?.seksiLabel || ''}`}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
             {/* Scrollable Navigation */}
             <nav className="sidebar-nav">
-                {/* Dashboard Menu */}
-                <div className="menu-section">
-                    <button
-                        className={`menu-item dashboard-item ${activeMenu === 'dashboard' ? 'active' : ''}`}
-                        onClick={() => setActiveMenu('dashboard')}
-                    >
-                        <span className="menu-icon">📊</span>
-                        <span className="menu-label">Dashboard Kalender</span>
-                    </button>
-                </div>
+                {/* Dashboard Menu - Only for Super Admin */}
+                {isSuperAdmin && (
+                    <div className="menu-section">
+                        <button
+                            className={`menu-item dashboard-item ${activeMenu === 'dashboard' ? 'active' : ''}`}
+                            onClick={() => setActiveMenu('dashboard')}
+                        >
+                            <span className="menu-icon">📊</span>
+                            <span className="menu-label">Dashboard Kalender</span>
+                        </button>
+                    </div>
+                )}
 
                 {/* Seksi Section */}
                 <div className="menu-section">
-                    <div className="section-title">SEKSI</div>
+                    <div className="section-title">
+                        {isSuperAdmin ? 'SEKSI' : 'SEKSI SAYA'}
+                    </div>
                     <div className="menu-list">
-                        {menuSections.map((menu) => (
+                        {visibleSections.map((menu) => (
                             <button
                                 key={menu.id}
                                 className={`menu-item ${activeMenu === menu.id ? 'active' : ''}`}
@@ -90,28 +127,66 @@ const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose }) => {
                             >
                                 <span className="menu-icon">{menu.icon}</span>
                                 <span className="menu-label">{menu.label}</span>
+                                {isAdminSeksi && !user?.canEdit && (
+                                    <span className="menu-badge view-only" title="Hanya bisa melihat">👁️</span>
+                                )}
+                                {isAdminSeksi && user?.canEdit && (
+                                    <span className="menu-badge can-edit" title="Bisa melihat & edit">✏️</span>
+                                )}
                             </button>
                         ))}
                     </div>
                 </div>
 
-                {/* Pengaturan Section */}
-                <div className="menu-section">
-                    <div className="section-title">PENGATURAN</div>
-                    <div className="menu-list">
-                        <button
-                            className={`menu-item settings-item ${activeMenu === 'settings' ? 'active' : ''}`}
-                            onClick={() => setActiveMenu('settings')}
-                        >
-                            <span className="menu-icon">⚙️</span>
-                            <span className="menu-label">Settings</span>
-                        </button>
+                {/* Pengaturan Section - Only for Super Admin */}
+                {isSuperAdmin && (
+                    <div className="menu-section">
+                        <div className="section-title">PENGATURAN</div>
+                        <div className="menu-list">
+                            <button
+                                className={`menu-item settings-item ${activeMenu === 'settings' ? 'active' : ''}`}
+                                onClick={() => setActiveMenu('settings')}
+                            >
+                                <span className="menu-icon">⚙️</span>
+                                <span className="menu-label">Settings</span>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                )}
+
+                {/* Edit Permission Info for Admin Seksi */}
+                {isAdminSeksi && (
+                    <div className="menu-section">
+                        <div className="section-title">IZIN AKSES</div>
+                        <div className="permission-info-card">
+                            <div className="perm-row">
+                                <span className="perm-label">👁️ Lihat</span>
+                                <span className={`perm-value ${user?.canView ? 'active' : 'inactive'}`}>
+                                    {user?.canView ? '✅ Aktif' : '❌ Tidak'}
+                                </span>
+                            </div>
+                            <div className="perm-row">
+                                <span className="perm-label">✏️ Edit</span>
+                                <span className={`perm-value ${user?.canEdit ? 'active' : 'inactive'}`}>
+                                    {user?.canEdit ? '✅ Aktif' : '🔒 Perlu Izin'}
+                                </span>
+                            </div>
+                            {!user?.canEdit && (
+                                <p className="perm-hint">
+                                    💡 Hubungi Super Admin untuk mendapatkan izin edit
+                                </p>
+                            )}
+                        </div>
+                    </div>
+                )}
             </nav>
 
-            {/* Footer */}
+            {/* Logout + Footer */}
             <div className="sidebar-footer">
+                <button className="btn-logout" onClick={handleLogout}>
+                    <span>🚪</span>
+                    <span>Keluar</span>
+                </button>
                 <p>© 2026 RKA</p>
             </div>
         </aside>

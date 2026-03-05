@@ -1,23 +1,60 @@
 import { useState, useEffect } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import SectionContent from './components/SectionContent';
 import Settings from './components/Settings';
+import LoginPage from './components/LoginPage';
 import { startKeepAlive, stopKeepAlive } from './utils/storage';
 import './components/Sidebar.css';
 import './App.css';
 
-function App() {
+function AppContent() {
+  const { user, isLoading, canAccessSection, canEditSection, isSuperAdmin, logout, refreshPermissions } = useAuth();
   const [activeMenu, setActiveMenu] = useState('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Start keep-alive service to prevent Supabase from pausing
   useEffect(() => {
     startKeepAlive();
-
-    // Cleanup saat aplikasi ditutup
     return () => stopKeepAlive();
   }, []);
+
+  // Refresh permissions periodically for Admin Seksi
+  useEffect(() => {
+    if (user && user.role === 'admin_seksi') {
+      const interval = setInterval(() => {
+        refreshPermissions();
+      }, 60000); // Every 1 minute
+      return () => clearInterval(interval);
+    }
+  }, [user]);
+
+  // Set default menu based on role
+  useEffect(() => {
+    if (user) {
+      if (user.role === 'admin_seksi') {
+        setActiveMenu(user.seksiId);
+      } else {
+        setActiveMenu('dashboard');
+      }
+    }
+  }, [user]);
+
+  // Show loading
+  if (isLoading) {
+    return (
+      <div className="app-loading">
+        <div className="loading-spinner"></div>
+        <p>Memuat aplikasi...</p>
+      </div>
+    );
+  }
+
+  // Show login if not authenticated
+  if (!user) {
+    return <LoginPage />;
+  }
 
   // Get section title and description based on active menu
   const getSectionInfo = () => {
@@ -79,8 +116,19 @@ function App() {
   const sectionInfo = getSectionInfo();
 
   const handleMenuClick = (menuId) => {
+    // Check access for section pages
+    const sectionIds = ['tikim', 'inteldakim', 'lalintalkim', 'umum', 'keuangan', 'kepegawaian', 'fasilitatif', 'reformasi-birokrasi'];
+    if (sectionIds.includes(menuId) && !canAccessSection(menuId)) {
+      alert('⚠️ Anda tidak memiliki akses ke seksi ini.');
+      return;
+    }
+    // Only super admin can access settings
+    if (menuId === 'settings' && !isSuperAdmin()) {
+      alert('⚠️ Hanya Super Admin yang bisa mengakses pengaturan.');
+      return;
+    }
     setActiveMenu(menuId);
-    setSidebarOpen(false); // Close sidebar on mobile after selecting menu
+    setSidebarOpen(false);
   };
 
   const renderContent = () => {
@@ -88,9 +136,20 @@ function App() {
       return <Dashboard />;
     }
     if (activeMenu === 'settings') {
+      if (!isSuperAdmin()) {
+        return (
+          <div className="access-denied">
+            <span className="access-denied-icon">🔒</span>
+            <h2>Akses Ditolak</h2>
+            <p>Hanya Super Admin yang dapat mengakses halaman pengaturan.</p>
+          </div>
+        );
+      }
       return <Settings setActiveMenu={setActiveMenu} />;
     }
-    return <SectionContent sectionId={activeMenu} sectionInfo={sectionInfo} />;
+    // For section content, pass canEdit prop
+    const canEdit = canEditSection(activeMenu);
+    return <SectionContent sectionId={activeMenu} sectionInfo={sectionInfo} canEdit={canEdit} />;
   };
 
   return (
@@ -118,12 +177,22 @@ function App() {
         setActiveMenu={handleMenuClick}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        user={user}
+        onLogout={logout}
       />
 
       <main className="main-content">
         {renderContent()}
       </main>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

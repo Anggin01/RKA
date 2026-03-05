@@ -18,10 +18,6 @@ const MASTER_PASSWORD_KEY = 'rka_master_password';
 const DEFAULT_MASTER_PASSWORD = 'admin123';
 
 const Settings = ({ setActiveMenu }) => {
-    const [isVerified, setIsVerified] = useState(false);
-    const [password, setPassword] = useState('');
-    const [showPassword, setShowPassword] = useState(false);
-    const [passwordError, setPasswordError] = useState('');
     const [adminData, setAdminData] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [toast, setToast] = useState('');
@@ -35,12 +31,8 @@ const Settings = ({ setActiveMenu }) => {
     const [confirmMasterPw, setConfirmMasterPw] = useState('');
 
     useEffect(() => {
-        if (isVerified) {
-            loadAdminData();
-        } else {
-            setIsLoading(false);
-        }
-    }, [isVerified]);
+        loadAdminData();
+    }, []);
 
     const getMasterPassword = () => {
         return localStorage.getItem(MASTER_PASSWORD_KEY) || DEFAULT_MASTER_PASSWORD;
@@ -49,22 +41,6 @@ const Settings = ({ setActiveMenu }) => {
     const showToast = (msg) => {
         setToast(msg);
         setTimeout(() => setToast(''), 3000);
-    };
-
-    const handleVerify = () => {
-        const masterPw = getMasterPassword();
-        if (password === masterPw) {
-            setIsVerified(true);
-            setPasswordError('');
-        } else {
-            setPasswordError('Password salah! Hanya Admin Utama yang bisa mengakses.');
-        }
-    };
-
-    const handleKeyPress = (e) => {
-        if (e.key === 'Enter') {
-            handleVerify();
-        }
     };
 
     const loadAdminData = async () => {
@@ -195,7 +171,7 @@ const Settings = ({ setActiveMenu }) => {
         setCurrentMasterPw('');
         setNewMasterPw('');
         setConfirmMasterPw('');
-        showToast('✅ Password Admin Utama berhasil diubah!');
+        showToast('✅ Password Super Admin berhasil diubah!');
     };
 
     const getAdminForSection = (seksiId) => {
@@ -213,67 +189,6 @@ const Settings = ({ setActiveMenu }) => {
     const viewCount = adminData.filter(a => a.can_view).length;
 
     // Loading State
-    if (isLoading && !isVerified) {
-        return (
-            <div className="settings-page">
-                <div className="settings-loading">
-                    <div className="spinner"></div>
-                    <p>Memuat pengaturan...</p>
-                </div>
-            </div>
-        );
-    }
-
-    // Password Verification
-    if (!isVerified) {
-        return (
-            <div className="settings-page">
-                {/* Header */}
-                <div className="settings-header-box">
-                    <div className="settings-header-left">
-                        <div className="settings-header-icon">⚙️</div>
-                        <div className="settings-header-text">
-                            <h1>Pengaturan</h1>
-                            <p>Kelola admin dan izin akses per seksi</p>
-                        </div>
-                    </div>
-                    <div className="settings-header-badge">
-                        🔒 Memerlukan Autentikasi
-                    </div>
-                </div>
-
-                <div className="settings-password-verify">
-                    <div className="password-card">
-                        <div className="password-card-icon">🔐</div>
-                        <h2>Verifikasi Admin Utama</h2>
-                        <p>Masukkan password admin utama untuk mengakses pengaturan</p>
-                        <div className="password-input-group">
-                            <input
-                                type={showPassword ? 'text' : 'password'}
-                                placeholder="Masukkan password..."
-                                value={password}
-                                onChange={(e) => { setPassword(e.target.value); setPasswordError(''); }}
-                                onKeyPress={handleKeyPress}
-                                autoFocus
-                            />
-                            <button
-                                className="password-toggle-btn"
-                                onClick={() => setShowPassword(!showPassword)}
-                            >
-                                {showPassword ? '🙈' : '👁️'}
-                            </button>
-                        </div>
-                        {passwordError && <div className="password-error">{passwordError}</div>}
-                        <button className="btn-verify-password" onClick={handleVerify}>
-                            🔓 Verifikasi & Masuk
-                        </button>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    // Loading after verified
     if (isLoading) {
         return (
             <div className="settings-page">
@@ -300,7 +215,7 @@ const Settings = ({ setActiveMenu }) => {
                     </div>
                 </div>
                 <div className="settings-header-badge">
-                    🔓 Admin Utama
+                    👑 Super Admin
                 </div>
             </div>
 
@@ -435,7 +350,7 @@ const Settings = ({ setActiveMenu }) => {
             <div className="password-change-section">
                 <div className="password-change-header">
                     <span>🔐</span>
-                    <h2>Ubah Password Admin Utama</h2>
+                    <h2>Ubah Password Super Admin</h2>
                 </div>
                 <div className="password-form-grid">
                     <div className="password-form-group">

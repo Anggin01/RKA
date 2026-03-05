@@ -1394,3 +1394,92 @@
     margin-top: 4px;
     font-style: italic;
 }
+
+/* Read-Only Banner */
+.readonly-banner {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border: 1px solid #f59e0b;
+    border-radius: 14px;
+    padding: 16px 20px;
+    animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.readonly-banner-content {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.readonly-icon {
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.readonly-text strong {
+    color: #92400e;
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.readonly-text p {
+    color: #a16207;
+    font-size: 0.8rem;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Read-Only Badge in Header */
+.readonly-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Access Denied Page */
+.access-denied {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: 2rem;
+}
+
+.access-denied-icon {
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.access-denied h2 {
+    color: #1e3a5f;
+    font-size: 1.8rem;
+    margin-bottom: 0.75rem;
+}
+
+.access-denied p {
+    color: #64748b;
+    font-size: 1rem;
+    max-width: 400px;
+}
