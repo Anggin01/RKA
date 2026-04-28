@@ -6,6 +6,7 @@ import SectionContent from './components/SectionContent';
 import Settings from './components/Settings';
 import LoginPage from './components/LoginPage';
 import { startKeepAlive, stopKeepAlive } from './utils/storage';
+import FlatIcon from './components/FlatIcon';
 import './components/Sidebar.css';
 import './App.css';
 
@@ -119,12 +120,12 @@ function AppContent() {
     // Check access for section pages
     const sectionIds = ['tikim', 'inteldakim', 'lalintalkim', 'umum', 'keuangan', 'kepegawaian', 'fasilitatif', 'reformasi-birokrasi'];
     if (sectionIds.includes(menuId) && !canAccessSection(menuId)) {
-      alert('⚠️ Anda tidak memiliki akses ke seksi ini.');
+      alert('[!] Anda tidak memiliki akses ke seksi ini.');
       return;
     }
     // Only super admin can access settings
     if (menuId === 'settings' && !isSuperAdmin()) {
-      alert('⚠️ Hanya Super Admin yang bisa mengakses pengaturan.');
+      alert('[!] Hanya Super Admin yang bisa mengakses pengaturan.');
       return;
     }
     setActiveMenu(menuId);
@@ -139,7 +140,7 @@ function AppContent() {
       if (!isSuperAdmin()) {
         return (
           <div className="access-denied">
-            <span className="access-denied-icon">🔒</span>
+            <span className="access-denied-icon"><FlatIcon name="lock" size={32} /></span>
             <h2>Akses Ditolak</h2>
             <p>Hanya Super Admin yang dapat mengakses halaman pengaturan.</p>
           </div>

@@ -9,14 +9,14 @@ const DEFAULT_MASTER_PASSWORD = 'admin123';
 const AUTH_SESSION_KEY = 'rka_auth_session';
 
 const SECTIONS = [
-    { id: 'tikim', label: 'Tikim', icon: '⚖️', fullName: 'Teknologi Informasi dan Komunikasi Imigrasi' },
-    { id: 'inteldakim', label: 'Inteldakim', icon: '🔍', fullName: 'Intelijen dan Penindakan Keimigrasian' },
-    { id: 'lalintalkim', label: 'Lalintalkim', icon: '🚗', fullName: 'Lalu Lintas dan Izin Tinggal Keimigrasian' },
-    { id: 'umum', label: 'Umum', icon: '📋', fullName: 'Umum dan Administrasi' },
-    { id: 'keuangan', label: 'Keuangan', icon: '💰', fullName: 'Keuangan dan Anggaran' },
-    { id: 'kepegawaian', label: 'Kepegawaian', icon: '👥', fullName: 'Kepegawaian dan Sumber Daya Manusia' },
-    { id: 'fasilitatif', label: 'Fasilitatif', icon: '🏢', fullName: 'Fasilitatif dan Layanan Pendukung' },
-    { id: 'reformasi-birokrasi', label: 'Reformasi Birokrasi', icon: '🏛️', fullName: 'Reformasi Birokrasi dan Tata Kelola' },
+    { id: 'tikim', label: 'Tikim', icon: 'scale', fullName: 'Teknologi Informasi dan Komunikasi Imigrasi' },
+    { id: 'inteldakim', label: 'Inteldakim', icon: 'search', fullName: 'Intelijen dan Penindakan Keimigrasian' },
+    { id: 'lalintalkim', label: 'Lalintalkim', icon: 'car', fullName: 'Lalu Lintas dan Izin Tinggal Keimigrasian' },
+    { id: 'umum', label: 'Umum', icon: 'clipboard', fullName: 'Umum dan Administrasi' },
+    { id: 'keuangan', label: 'Keuangan', icon: 'wallet', fullName: 'Keuangan dan Anggaran' },
+    { id: 'kepegawaian', label: 'Kepegawaian', icon: 'people', fullName: 'Kepegawaian dan Sumber Daya Manusia' },
+    { id: 'fasilitatif', label: 'Fasilitatif', icon: 'building', fullName: 'Fasilitatif dan Layanan Pendukung' },
+    { id: 'reformasi-birokrasi', label: 'Reformasi Birokrasi', icon: 'landmark', fullName: 'Reformasi Birokrasi dan Tata Kelola' },
 ];
 
 export const AuthProvider = ({ children }) => {

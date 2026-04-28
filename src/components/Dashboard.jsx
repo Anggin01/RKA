@@ -10,6 +10,7 @@ import {
     updateWorkPlan,
     deleteWorkPlan
 } from '../utils/storage';
+import FlatIcon from './FlatIcon';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -102,13 +103,13 @@ const Dashboard = () => {
     const getGreeting = () => {
         const hour = currentTime.getHours();
         if (hour >= 5 && hour < 12) {
-            return { text: 'Selamat Pagi', icon: '🌅', period: 'pagi' };
+            return { text: 'Selamat Pagi', icon: 'pagi', period: 'pagi' };
         } else if (hour >= 12 && hour < 15) {
-            return { text: 'Selamat Siang', icon: '☀️', period: 'siang' };
+            return { text: 'Selamat Siang', icon: 'siang', period: 'siang' };
         } else if (hour >= 15 && hour < 18) {
-            return { text: 'Selamat Sore', icon: '🌇', period: 'sore' };
+            return { text: 'Selamat Sore', icon: 'sore', period: 'sore' };
         } else {
-            return { text: 'Selamat Malam', icon: '🌙', period: 'malam' };
+            return { text: 'Selamat Malam', icon: 'malam', period: 'malam' };
         }
     };
 
@@ -236,11 +237,11 @@ const Dashboard = () => {
                 setCalendarEvents([...calendarEvents, event]);
                 setNewEvent({ date: '', title: '', section: 'Tikim', status: 'upcoming' });
                 setShowAddEvent(false);
-                showSaveStatus('✅ Jadwal berhasil ditambahkan ke database!');
+                showSaveStatus('[OK] Jadwal berhasil ditambahkan ke database!');
             }
         } catch (error) {
             console.error('Error adding event:', error);
-            showSaveStatus('❌ Gagal menambahkan jadwal!');
+            showSaveStatus('[ERROR] Gagal menambahkan jadwal!');
         }
     };
 
@@ -259,17 +260,17 @@ const Dashboard = () => {
                     title: editEvent.title,
                     deadline: editEvent.date
                 });
-                showSaveStatus('✅ Rencana kegiatan diperbarui di database!');
+                showSaveStatus('[OK] Rencana kegiatan diperbarui di database!');
             } else {
                 await updateCalendarEvent(editingEventId, editEvent);
-                showSaveStatus('✅ Perubahan tersimpan ke database!');
+                showSaveStatus('[OK] Perubahan tersimpan ke database!');
             }
             await loadData();
             setEditingEventId(null);
             setEditEvent({});
         } catch (error) {
             console.error('Error saving event:', error);
-            showSaveStatus('❌ Gagal menyimpan perubahan!');
+            showSaveStatus('[ERROR] Gagal menyimpan perubahan!');
         }
     };
 
@@ -286,15 +287,15 @@ const Dashboard = () => {
                     const sectionId = parts[1];
                     const originalId = parseInt(parts[2]);
                     await deleteWorkPlan(sectionId, originalId);
-                    showSaveStatus('🗑️ Rencana kegiatan berhasil dihapus dari database!');
+                    showSaveStatus('[OK] Rencana kegiatan berhasil dihapus dari database!');
                 } else {
                     await deleteCalendarEvent(eventId);
-                    showSaveStatus('🗑️ Jadwal berhasil dihapus dari database!');
+                    showSaveStatus('[OK] Jadwal berhasil dihapus dari database!');
                 }
                 await loadData();
             } catch (error) {
                 console.error('Error deleting event:', error);
-                showSaveStatus('❌ Gagal menghapus jadwal!');
+                showSaveStatus('[ERROR] Gagal menghapus jadwal!');
             }
         }
     };
@@ -310,7 +311,7 @@ const Dashboard = () => {
 
             {/* Header - Greeting */}
             <div className={`dashboard-header greeting-${greeting.period}`}>
-                <div className="greeting-icon">{greeting.icon}</div>
+                <div className="greeting-icon"><FlatIcon name={greeting.icon} size={32} /></div>
                 <div className="greeting-content">
                     <h1>{greeting.text}, Admin!</h1>
                     <p>{formatCurrentDate()}</p>
@@ -323,24 +324,24 @@ const Dashboard = () => {
 
             {/* Budget Overview */}
             <div className="budget-overview">
-                <h2>💰 Ringkasan Anggaran</h2>
+                <h2><FlatIcon name="wallet" size={18} /> Ringkasan Anggaran</h2>
                 <div className="budget-cards">
                     <div className="budget-card total">
-                        <div className="budget-icon">📊</div>
+                        <div className="budget-icon"><FlatIcon name="chart" size={22} /></div>
                         <div className="budget-info">
                             <span className="budget-label">Total Pagu</span>
                             <span className="budget-value">{formatCurrency(totalPagu)}</span>
                         </div>
                     </div>
                     <div className="budget-card used">
-                        <div className="budget-icon">💸</div>
+                        <div className="budget-icon"><FlatIcon name="wallet" size={22} /></div>
                         <div className="budget-info">
                             <span className="budget-label">Terpakai</span>
                             <span className="budget-value">{formatCurrency(terpakai)}</span>
                         </div>
                     </div>
                     <div className="budget-card remaining">
-                        <div className="budget-icon">💎</div>
+                        <div className="budget-icon"><FlatIcon name="shield" size={22} /></div>
                         <div className="budget-info">
                             <span className="budget-label">Sisa Anggaran</span>
                             <span className="budget-value">{formatCurrency(sisa)}</span>
@@ -387,7 +388,7 @@ const Dashboard = () => {
                 {/* Upcoming Events */}
                 <div className="events-section">
                     <div className="events-header">
-                        <h3>📅 Rencana Kerja Mendatang</h3>
+                        <h3><FlatIcon name="calendar" size={16} /> Rencana Kerja Mendatang</h3>
                         {selectedDate && (
                             <button className="clear-filter-btn" onClick={() => setSelectedDate(null)}>
                                 Tampilkan Semua
@@ -419,7 +420,7 @@ const Dashboard = () => {
 
                         {(selectedDate ? calendarEvents.filter(e => e.date === selectedDate) : calendarEvents).length === 0 && (
                             <div className="empty-events">
-                                <span>📭</span>
+                                <span><FlatIcon name="mailbox" size={28} /></span>
                                 <p>{selectedDate ? `Tidak ada kegiatan pada tanggal ${selectedDate}` : 'Belum ada jadwal rencana kegiatan.'}</p>
                             </div>
                         )}
@@ -429,7 +430,7 @@ const Dashboard = () => {
 
             {/* Section Budget Breakdown */}
             <div className="section-budgets">
-                <h3>📊 Anggaran per Seksi</h3>
+                <h3><FlatIcon name="chart" size={16} /> Anggaran per Seksi</h3>
                 <div className="section-budget-grid">
                     {sectionBudgets.map((section, index) => (
                         <div key={index} className="section-budget-card">
@@ -457,7 +458,7 @@ const Dashboard = () => {
             {/* Status Kegiatan Section */}
             <div className="status-kegiatan-section">
                 <div className="status-kegiatan-header-title">
-                    <span className="icon">📊</span> Status Kegiatan
+                    <span className="icon"><FlatIcon name="chart" size={16} /></span> Status Kegiatan
                 </div>
 
                 <div className="overall-progress-card">
@@ -481,14 +482,14 @@ const Dashboard = () => {
                 <div className="status-group">
                     <div className="group-header">
                         <div className="group-title">
-                            <span className="status-icon success">✅</span> Selesai
+                            <span className="status-icon success"><FlatIcon name="check" size={16} /></span> Selesai
                         </div>
                         <span className="group-count success">{dashboardStatusCounts.completed}</span>
                     </div>
                     <div className="status-list">
                         {flattenedWorkPlans.filter(wp => wp.status === 'completed').map(wp => (
                             <div key={`comp-${wp.id}-${wp.sectionId}`} className="status-item-card success">
-                                <div className="item-icon">⚖️</div>
+                                <div className="item-icon"><FlatIcon name="scale" size={16} /></div>
                                 <div className="item-details">
                                     <div className="item-title">{wp.title}</div>
                                     <div className="item-meta">{wp.sectionName.toUpperCase()} • {wp.deadline}</div>
@@ -502,14 +503,14 @@ const Dashboard = () => {
                 <div className="status-group">
                     <div className="group-header">
                         <div className="group-title">
-                            <span className="status-icon warning">⏳</span> Sedang Berjalan
+                            <span className="status-icon warning"><FlatIcon name="hourglass" size={16} /></span> Sedang Berjalan
                         </div>
                         <span className="group-count warning">{dashboardStatusCounts.ongoing}</span>
                     </div>
                     <div className="status-list">
                         {flattenedWorkPlans.filter(wp => wp.status === 'ongoing').map(wp => (
                             <div key={`ong-${wp.id}-${wp.sectionId}`} className="status-item-card warning">
-                                <div className="item-icon">🔄</div>
+                                <div className="item-icon"><FlatIcon name="refresh" size={16} /></div>
                                 <div className="item-details">
                                     <div className="item-title">{wp.title}</div>
                                     <div className="item-meta">{wp.sectionName.toUpperCase()} • {wp.deadline}</div>
@@ -523,14 +524,14 @@ const Dashboard = () => {
                 <div className="status-group">
                     <div className="group-header">
                         <div className="group-title">
-                            <span className="status-icon pending">📋</span> Rencana
+                            <span className="status-icon pending"><FlatIcon name="clipboard" size={16} /></span> Rencana
                         </div>
                         <span className="group-count pending">{dashboardStatusCounts.pending}</span>
                     </div>
                     <div className="status-list">
                         {flattenedWorkPlans.filter(wp => wp.status === 'pending').map(wp => (
                             <div key={`pen-${wp.id}-${wp.sectionId}`} className="status-item-card pending">
-                                <div className="item-icon">🚦</div>
+                                <div className="item-icon"><FlatIcon name="traffic-light" size={16} /></div>
                                 <div className="item-details">
                                     <div className="item-title">{wp.title}</div>
                                     <div className="item-meta">{wp.sectionName.toUpperCase()} • {wp.deadline}</div>

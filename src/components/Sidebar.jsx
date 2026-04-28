@@ -1,15 +1,16 @@
 import './Sidebar.css';
+import FlatIcon from './FlatIcon';
 
 const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose, user, onLogout }) => {
     const menuSections = [
-        { id: 'tikim', label: 'Tikim', icon: '⚖️' },
-        { id: 'inteldakim', label: 'Inteldakim', icon: '🔍' },
-        { id: 'lalintalkim', label: 'Lalintalkim', icon: '🚗' },
-        { id: 'umum', label: 'Umum', icon: '📋' },
-        { id: 'keuangan', label: 'Keuangan', icon: '💰' },
-        { id: 'kepegawaian', label: 'Kepegawaian', icon: '👥' },
-        { id: 'fasilitatif', label: 'Fasilitatif', icon: '🏢' },
-        { id: 'reformasi-birokrasi', label: 'Reformasi Birokrasi', icon: '🏛️' },
+        { id: 'tikim', label: 'Tikim', icon: 'scale' },
+        { id: 'inteldakim', label: 'Inteldakim', icon: 'search' },
+        { id: 'lalintalkim', label: 'Lalintalkim', icon: 'car' },
+        { id: 'umum', label: 'Umum', icon: 'clipboard' },
+        { id: 'keuangan', label: 'Keuangan', icon: 'wallet' },
+        { id: 'kepegawaian', label: 'Kepegawaian', icon: 'people' },
+        { id: 'fasilitatif', label: 'Fasilitatif', icon: 'building' },
+        { id: 'reformasi-birokrasi', label: 'Reformasi Birokrasi', icon: 'landmark' },
     ];
 
     const isSuperAdmin = user?.role === 'super_admin';
@@ -88,7 +89,7 @@ const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose, user, onLogout })
             {/* User Role Badge */}
             <div className="sidebar-user-badge">
                 <div className={`user-badge ${isSuperAdmin ? 'super-admin' : 'admin-seksi'}`}>
-                    <span className="badge-icon">{isSuperAdmin ? '👑' : '🏛️'}</span>
+                    <span className="badge-icon">{isSuperAdmin ? <FlatIcon name="crown" size={16} /> : <FlatIcon name="landmark" size={16} />}</span>
                     <div className="badge-info">
                         <span className="badge-name">{user?.displayName || 'User'}</span>
                         <span className="badge-role">
@@ -107,7 +108,7 @@ const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose, user, onLogout })
                             className={`menu-item dashboard-item ${activeMenu === 'dashboard' ? 'active' : ''}`}
                             onClick={() => setActiveMenu('dashboard')}
                         >
-                            <span className="menu-icon">📊</span>
+                            <span className="menu-icon"><FlatIcon name="chart" size={16} /></span>
                             <span className="menu-label">Dashboard Kalender</span>
                         </button>
                     </div>
@@ -125,13 +126,13 @@ const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose, user, onLogout })
                                 className={`menu-item ${activeMenu === menu.id ? 'active' : ''}`}
                                 onClick={() => setActiveMenu(menu.id)}
                             >
-                                <span className="menu-icon">{menu.icon}</span>
+                                <span className="menu-icon"><FlatIcon name={menu.icon} size={16} /></span>
                                 <span className="menu-label">{menu.label}</span>
                                 {isAdminSeksi && !user?.canEdit && (
-                                    <span className="menu-badge view-only" title="Hanya bisa melihat">👁️</span>
+                                    <span className="menu-badge view-only" title="Hanya bisa melihat"><FlatIcon name="eye" size={12} /></span>
                                 )}
                                 {isAdminSeksi && user?.canEdit && (
-                                    <span className="menu-badge can-edit" title="Bisa melihat & edit">✏️</span>
+                                    <span className="menu-badge can-edit" title="Bisa melihat & edit"><FlatIcon name="edit" size={12} /></span>
                                 )}
                             </button>
                         ))}
@@ -147,7 +148,7 @@ const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose, user, onLogout })
                                 className={`menu-item settings-item ${activeMenu === 'settings' ? 'active' : ''}`}
                                 onClick={() => setActiveMenu('settings')}
                             >
-                                <span className="menu-icon">⚙️</span>
+                                <span className="menu-icon"><FlatIcon name="gear" size={16} /></span>
                                 <span className="menu-label">Settings</span>
                             </button>
                         </div>
@@ -160,20 +161,20 @@ const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose, user, onLogout })
                         <div className="section-title">IZIN AKSES</div>
                         <div className="permission-info-card">
                             <div className="perm-row">
-                                <span className="perm-label">👁️ Lihat</span>
+                                <span className="perm-label"><FlatIcon name="eye" size={14} /> Lihat</span>
                                 <span className={`perm-value ${user?.canView ? 'active' : 'inactive'}`}>
-                                    {user?.canView ? '✅ Aktif' : '❌ Tidak'}
+                                    {user?.canView ? <><FlatIcon name="check" size={14} color="#22c55e" /> Aktif</> : <><FlatIcon name="cross" size={14} color="#ef4444" /> Tidak</>}
                                 </span>
                             </div>
                             <div className="perm-row">
-                                <span className="perm-label">✏️ Edit</span>
+                                <span className="perm-label"><FlatIcon name="edit" size={14} /> Edit</span>
                                 <span className={`perm-value ${user?.canEdit ? 'active' : 'inactive'}`}>
-                                    {user?.canEdit ? '✅ Aktif' : '🔒 Perlu Izin'}
+                                    {user?.canEdit ? <><FlatIcon name="check" size={14} color="#22c55e" /> Aktif</> : <><FlatIcon name="lock" size={14} /> Perlu Izin</>}
                                 </span>
                             </div>
                             {!user?.canEdit && (
                                 <p className="perm-hint">
-                                    💡 Hubungi Super Admin untuk mendapatkan izin edit
+                                    <FlatIcon name="bulb" size={14} /> Hubungi Super Admin untuk mendapatkan izin edit
                                 </p>
                             )}
                         </div>
@@ -184,7 +185,7 @@ const Sidebar = ({ activeMenu, setActiveMenu, isOpen, onClose, user, onLogout })
             {/* Logout + Footer */}
             <div className="sidebar-footer">
                 <button className="btn-logout" onClick={handleLogout}>
-                    <span>🚪</span>
+                    <span><FlatIcon name="door" size={16} /></span>
                     <span>Keluar</span>
                 </button>
                 <p>© 2026 RKA</p>

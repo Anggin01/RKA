@@ -4,6 +4,7 @@ import {
     getSectionPagu, updateSectionPagu,
     getUraianByJenis, addUraianItem, checkUraianTableExists, deleteUraianItem
 } from '../utils/storage';
+import FlatIcon from './FlatIcon';
 import './SectionContent.css';
 
 const JENIS_LIST = ['program', 'sub_program', 'output', 'sub_output', 'komponen', 'sub_komponen', 'akun', 'item'];
@@ -240,16 +241,16 @@ const SectionContent = ({ sectionId, sectionInfo, canEdit = true }) => {
         try {
             if (editingId) {
                 await updateWorkPlan(sectionId, editingId, planData);
-                showSaveStatus('✅ Kegiatan berhasil diperbarui & disimpan ke database!');
+                showSaveStatus('[OK] Kegiatan berhasil diperbarui & disimpan ke database!');
             } else {
                 await addWorkPlan(sectionId, planData);
-                showSaveStatus('✅ Kegiatan berhasil ditambahkan & disimpan ke database!');
+                showSaveStatus('[OK] Kegiatan berhasil ditambahkan & disimpan ke database!');
             }
             await loadData();
             handleCloseModal();
         } catch (error) {
             console.error('Error saving work plan:', error);
-            showSaveStatus('❌ Gagal menyimpan ke database!');
+            showSaveStatus('[ERROR] Gagal menyimpan ke database!');
         }
     };
 
@@ -259,13 +260,13 @@ const SectionContent = ({ sectionId, sectionInfo, canEdit = true }) => {
                 const success = await deleteWorkPlan(sectionId, planId);
                 if (success) {
                     await loadData();
-                    showSaveStatus('🗑️ Kegiatan berhasil dihapus dari database!');
+                    showSaveStatus('[OK] Kegiatan berhasil dihapus dari database!');
                 } else {
                     throw new Error('Gagal menghapus');
                 }
             } catch (error) {
                 console.error('Error deleting work plan:', error);
-                showSaveStatus('❌ Gagal menghapus dari database!');
+                showSaveStatus('[ERROR] Gagal menghapus dari database!');
             }
         }
     };
@@ -273,10 +274,10 @@ const SectionContent = ({ sectionId, sectionInfo, canEdit = true }) => {
         try {
             await updateSectionPagu(sectionId, pagu);
             setIsEditingPagu(false);
-            showSaveStatus('✅ Pagu berhasil disimpan ke database!');
+            showSaveStatus('[OK] Pagu berhasil disimpan ke database!');
         } catch (error) {
             console.error('Error saving pagu:', error);
-            showSaveStatus('❌ Gagal menyimpan pagu!');
+            showSaveStatus('[ERROR] Gagal menyimpan pagu!');
         }
     };
 
@@ -347,10 +348,10 @@ const SectionContent = ({ sectionId, sectionInfo, canEdit = true }) => {
             }
 
             setShowAddUraianModal(false);
-            showSaveStatus(`✅ ${JENIS_LABEL[addUraianForm.jenis]} "${addUraianForm.kode}" berhasil ditambahkan!`);
+            showSaveStatus(`[OK] ${JENIS_LABEL[addUraianForm.jenis]} "${addUraianForm.kode}" berhasil ditambahkan!`);
         } catch (err) {
             console.error('Error saving uraian:', err);
-            showSaveStatus('❌ Gagal menyimpan uraian!');
+            showSaveStatus('[ERROR] Gagal menyimpan uraian!');
         } finally {
             setAddUraianLoading(false);
             setActiveRincianAdd(null);
@@ -380,13 +381,13 @@ const SectionContent = ({ sectionId, sectionInfo, canEdit = true }) => {
                     setFormData(prev => ({ ...prev, [field]: '' }));
                 }
 
-                showSaveStatus(`✅ Data berhasil dihapus!`);
+                showSaveStatus(`[OK] Data berhasil dihapus!`);
             } else {
                 throw new Error('Gagal menghapus');
             }
         } catch (err) {
             console.error('Error deleting uraian:', err);
-            showSaveStatus('❌ Gagal menghapus data!');
+            showSaveStatus('[ERROR] Gagal menghapus data!');
         }
     };
 
@@ -485,7 +486,7 @@ ${printContent.innerHTML}
             {!canEdit && (
                 <div className="readonly-banner">
                     <div className="readonly-banner-content">
-                        <span className="readonly-icon">🔒</span>
+                        <span className="readonly-icon"><FlatIcon name="lock" size={16} /></span>
                         <div className="readonly-text">
                             <strong>Mode Hanya Baca</strong>
                             <p>Anda hanya memiliki izin untuk melihat data seksi ini. Hubungi Super Admin untuk mendapatkan izin edit.</p>
@@ -498,7 +499,7 @@ ${printContent.innerHTML}
             <div className="section-header-box">
                 <div className="header-left">
                     <div className="header-icon-box">
-                        <span className="icon-scale">⚖️</span>
+                        <span className="icon-scale"><FlatIcon name="scale" size={22} color="#fff" /></span>
                     </div>
                     <div className="header-text-group">
                         <h1 className="header-title-white">{sectionInfo.title}</h1>
@@ -509,13 +510,13 @@ ${printContent.innerHTML}
                     {canEdit && (
                         <div className="header-actions-new">
                             <button className="btn-edit-seksi">
-                                <span>✏️</span> Edit Seksi
+                                <span><FlatIcon name="edit" size={14} /></span> Edit Seksi
                             </button>
                         </div>
                     )}
                     {!canEdit && (
                         <div className="header-actions-new">
-                            <span className="readonly-badge">👁️ Hanya Baca</span>
+                            <span className="readonly-badge"><FlatIcon name="eye" size={14} /> Hanya Baca</span>
                         </div>
                     )}
                 </div>
@@ -525,10 +526,10 @@ ${printContent.innerHTML}
             <div className="anggaran-section">
                 <div className="anggaran-header">
                     <div className="anggaran-title">
-                        <span className="coin-icon">💰</span>
+                        <span className="coin-icon"><FlatIcon name="wallet" size={18} /></span>
                         <h2>Anggaran Seksi</h2>
                         <button className="btn-lihat-laporan" onClick={() => setShowReportModal(true)}>
-                            📊 Lihat Laporan
+                            <FlatIcon name="chart" size={14} /> Lihat Laporan
                         </button>
                     </div>
                     <span className="percentage-badge">{usedPercentage}% Terpakai</span>
@@ -558,7 +559,7 @@ ${printContent.innerHTML}
                             <div className="card-value">
                                 {formatCurrency(pagu)}
                                 {canEdit && (
-                                    <button className="btn-edit-pagu" onClick={() => setIsEditingPagu(true)}>✏️</button>
+                                    <button className="btn-edit-pagu" onClick={() => setIsEditingPagu(true)}><FlatIcon name="edit" size={12} /></button>
                                 )}
                             </div>
                         )}
@@ -577,7 +578,7 @@ ${printContent.innerHTML}
             {/* Status Kegiatan Section */}
             <div className="status-kegiatan-section">
                 <div className="status-kegiatan-header-title">
-                    <span>📊 Status Kegiatan</span>
+                    <span><FlatIcon name="chart" size={16} /> Status Kegiatan</span>
                 </div>
 
                 <div className="overall-progress-card">
@@ -595,14 +596,14 @@ ${printContent.innerHTML}
                 </div>
 
                 {[
-                    { key: 'completed', label: 'Selesai', icon: '✅', cls: 'green', border: 'green-border', icons: ['♎', '🔍', '🚦'] },
-                    { key: 'ongoing', label: 'Sedang Berjalan', icon: '🔄', cls: 'orange', border: 'orange-border', icons: ['🔍', '📂', '⚡'] },
-                    { key: 'pending', label: 'Belum Mulai', icon: '📋', cls: 'gray', border: 'gray-border', icons: ['⚖️', '📄', '📅'] },
+                    { key: 'completed', label: 'Selesai', icon: 'check', cls: 'green', border: 'green-border', icons: ['libra', 'search', 'traffic-light'] },
+                    { key: 'ongoing', label: 'Sedang Berjalan', icon: 'refresh', cls: 'orange', border: 'orange-border', icons: ['search', 'folder', 'bolt'] },
+                    { key: 'pending', label: 'Belum Mulai', icon: 'clipboard', cls: 'gray', border: 'gray-border', icons: ['scale', 'document', 'calendar'] },
                 ].map(({ key, label, icon, cls, border, icons }) => (
                     <div key={key} className="status-group">
                         <div className="group-header">
                             <div className="group-title">
-                                <span className={`group-icon-${key === 'completed' ? 'check' : key === 'ongoing' ? 'sync' : 'plan'}`}>{icon}</span>
+                                <span className={`group-icon-${key === 'completed' ? 'check' : key === 'ongoing' ? 'sync' : 'plan'}`}><FlatIcon name={icon} size={16} /></span>
                                 <span>{label}</span>
                             </div>
                             <span className={`group-badge ${cls}`}>{statusCounts[key]}</span>
@@ -611,7 +612,7 @@ ${printContent.innerHTML}
                             {workPlans.filter(p => p.status === key).length > 0 ? (
                                 workPlans.filter(p => p.status === key).map((plan, idx) => (
                                     <div key={`compact-${plan.id || idx}`} className={`compact-activity-card ${border}`}>
-                                        <span className="card-icon">{icons[idx % 3]}</span>
+                                        <span className="card-icon"><FlatIcon name={icons[idx % 3]} size={14} /></span>
                                         <div className="card-info">
                                             <h4>{plan.title}</h4>
                                             <p>{sectionId.toUpperCase()} • {formatDate(plan.deadline)}</p>
@@ -645,7 +646,7 @@ ${printContent.innerHTML}
             <div className="workplans-container">
                 {workPlans.length === 0 ? (
                     <div className="empty-state">
-                        <span className="empty-icon">📭</span>
+                        <span className="empty-icon"><FlatIcon name="mailbox" size={32} /></span>
                         <p>Belum ada rencana kerja. Klik "Tambah" untuk menambahkan.</p>
                     </div>
                 ) : (
@@ -664,7 +665,7 @@ ${printContent.innerHTML}
                                         </div>
                                     )}
                                     <div className="workplan-meta">
-                                        <span className="meta-date">📅 {formatDate(plan.deadline)}</span>
+                                        <span className="meta-date"><FlatIcon name="calendar" size={12} /> {formatDate(plan.deadline)}</span>
                                         <div className="meta-budgets">
                                             {plan.budget > 0 && (
                                                 <span className="meta-budget">Pagu: {formatCurrency(plan.budget)}</span>
@@ -682,10 +683,10 @@ ${printContent.innerHTML}
                                     {canEdit && (
                                         <div className="action-buttons">
                                             <button className="btn-action edit" onClick={() => handleOpenEditModal(plan)}>
-                                                ✏️ Edit
+                                                <FlatIcon name="edit" size={12} /> Edit
                                             </button>
                                             <button className="btn-action delete" onClick={() => handleDelete(plan.id)}>
-                                                🗑️ Hapus
+                                                <FlatIcon name="trash" size={12} /> Hapus
                                             </button>
                                         </div>
                                     )}
@@ -791,7 +792,7 @@ ${printContent.innerHTML}
                             {/* Migration banner when table doesn't exist */}
                             {uraianTableMissing && (
                                 <div className="migration-banner">
-                                    <div className="migration-banner-icon">⚠️</div>
+                                    <div className="migration-banner-icon"><FlatIcon name="warning" size={24} color="#f59e0b" /></div>
                                     <div className="migration-banner-content">
                                         <strong>Tabel Uraian Belum Dibuat</strong>
                                         <p>Jalankan SQL migration di Supabase untuk mengaktifkan fitur Uraian Anggaran.</p>
@@ -872,7 +873,7 @@ ${printContent.innerHTML}
                                                             if (item) handleDeleteUraian(item.id, jenis, item.nama);
                                                         }}
                                                     >
-                                                        🗑️
+                                                        <FlatIcon name="trash" size={12} />
                                                     </button>
                                                 )}
                                                 <button
@@ -937,7 +938,7 @@ ${printContent.innerHTML}
                                                             <button type="button" className="btn-mini-del" title="Hapus Akun" onClick={() => {
                                                                 const itm = availableAkun.find(u => u.id == item.akunId);
                                                                 if (itm) handleDeleteUraian(itm.id, 'akun', itm.nama);
-                                                            }}>🗑️</button>
+                                                            }}><FlatIcon name="trash" size={12} /></button>
                                                         )}
                                                     </div>
                                                 </div>
@@ -962,7 +963,7 @@ ${printContent.innerHTML}
                                                             <button type="button" className="btn-mini-del" title="Hapus Item" onClick={() => {
                                                                 const itm = availableItem.find(u => u.id == item.itemId);
                                                                 if (itm) handleDeleteUraian(itm.id, 'item', itm.nama);
-                                                            }}>🗑️</button>
+                                                            }}><FlatIcon name="trash" size={12} /></button>
                                                         )}
                                                     </div>
                                                 </div>
@@ -1017,7 +1018,7 @@ ${printContent.innerHTML}
                         <div className="uraian-mini-body">
                             {addUraianForm.parentId && (
                                 <div className="uraian-mini-parent-info">
-                                    <span>📌 Akan ditambah sebagai turunan dari item yang dipilih di atasnya</span>
+                                    <span><FlatIcon name="pin" size={14} /> Akan ditambah sebagai turunan dari item yang dipilih di atasnya</span>
                                 </div>
                             )}
                             <div className="uraian-mini-row">
@@ -1051,7 +1052,7 @@ ${printContent.innerHTML}
                                 onClick={handleSaveUraian}
                                 disabled={addUraianLoading || !addUraianForm.kode.trim() || !addUraianForm.nama.trim()}
                             >
-                                {addUraianLoading ? '⏳ Menyimpan...' : '✅ Simpan'}
+                                {addUraianLoading ? <><FlatIcon name="hourglass" size={14} /> Menyimpan...</> : <><FlatIcon name="check" size={14} /> Simpan</>}
                             </button>
                         </div>
                     </div>
@@ -1065,7 +1066,7 @@ ${printContent.innerHTML}
                         {/* Report Modal Top Bar */}
                         <div className="report-topbar">
                             <div className="report-topbar-left">
-                                <span className="report-topbar-icon">📊</span>
+                                <span className="report-topbar-icon"><FlatIcon name="chart" size={20} color="#fff" /></span>
                                 <div>
                                     <div className="report-topbar-title">Laporan Keuangan</div>
                                     <div className="report-topbar-sub">Seksi {sectionInfo.title}</div>
@@ -1073,7 +1074,7 @@ ${printContent.innerHTML}
                             </div>
                             <div className="report-topbar-actions">
                                 <button className="btn-report-action print" onClick={handlePrintReport} title="Cetak Laporan">
-                                    🖨️ Cetak / Unduh
+                                    <FlatIcon name="print" size={14} /> Cetak / Unduh
                                 </button>
                                 <button className="modal-close" onClick={() => setShowReportModal(false)}>✕</button>
                             </div>
@@ -1082,10 +1083,10 @@ ${printContent.innerHTML}
                         {/* Tabs */}
                         <div className="report-tabs">
                             <button className={`tab-btn ${reportTab === 'ringkasan' ? 'active' : ''}`} onClick={() => setReportTab('ringkasan')}>
-                                📋 Ringkasan
+                                <FlatIcon name="clipboard" size={14} /> Ringkasan
                             </button>
                             <button className={`tab-btn ${reportTab === 'detail' ? 'active' : ''}`} onClick={() => setReportTab('detail')}>
-                                📄 Detail Kegiatan
+                                <FlatIcon name="document" size={14} /> Detail Kegiatan
                             </button>
                         </div>
 
@@ -1111,7 +1112,7 @@ ${printContent.innerHTML}
                                         </div>
                                     </div>
                                     <div className="status-allocation">
-                                        <h3>📊 Alokasi Berdasarkan Status</h3>
+                                        <h3><FlatIcon name="chart" size={16} /> Alokasi Berdasarkan Status</h3>
                                         <div className="allocation-cards">
                                             <div className="allocation-card selesai">
                                                 <div className="allocation-header">Selesai</div>
@@ -1131,7 +1132,7 @@ ${printContent.innerHTML}
                                         </div>
                                     </div>
                                     <div className="progress-section">
-                                        <h3>📈 Progress Anggaran</h3>
+                                        <h3><FlatIcon name="trend-up" size={16} /> Progress Anggaran</h3>
                                         <div className="progress-bar-container">
                                             <div className="progress-bar-full">
                                                 <div className="progress-used" style={{ width: `${usedPercentage}%` }}></div>
@@ -1345,8 +1346,11 @@ ${printContent.innerHTML}
                                                                                 );
 
                                                                                 // Rincian Akun/Item
-                                                                                if (plan.rincianRealisasi && plan.rincianRealisasi.length > 0) {
-                                                                                    plan.rincianRealisasi.forEach(rincian => {
+                                                                                const rincianArr = Array.isArray(plan.rincianRealisasi)
+                                                                                    ? plan.rincianRealisasi
+                                                                                    : (typeof plan.rincianRealisasi === 'string' ? (() => { try { return JSON.parse(plan.rincianRealisasi); } catch { return []; } })() : []);
+                                                                                if (rincianArr && rincianArr.length > 0) {
+                                                                                    rincianArr.forEach(rincian => {
                                                                                         const rAkun = rincian.akunId ? uraianData.akun.find(u => u.id === parseInt(rincian.akunId)) : null;
                                                                                         const rItem = rincian.itemId ? uraianData.item.find(u => u.id === parseInt(rincian.itemId)) : null;
                                                                                         const nominalStr = typeof rincian.nominal === 'string' ? rincian.nominal.replace(/\D/g, '') : rincian.nominal;

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import FlatIcon from './FlatIcon';
 import './LoginPage.css';
 
 const LoginPage = () => {
@@ -102,7 +103,7 @@ const LoginPage = () => {
                         <div className="branding-sections">
                             {SECTIONS.map((section, index) => (
                                 <span key={section.id} className="section-tag" style={{ animationDelay: `${index * 0.1}s` }}>
-                                    {section.icon} {section.label}
+                                    <FlatIcon name={section.icon} size={14} /> {section.label}
                                 </span>
                             ))}
                         </div>
@@ -118,21 +119,21 @@ const LoginPage = () => {
                                 className={`toggle-btn ${loginType === 'super_admin' ? 'active' : ''}`}
                                 onClick={() => switchLoginType('super_admin')}
                             >
-                                <span className="toggle-icon">👑</span>
+                                <span className="toggle-icon"><FlatIcon name="crown" size={16} /></span>
                                 <span className="toggle-label">Super Admin</span>
                             </button>
                             <button
                                 className={`toggle-btn ${loginType === 'admin_seksi' ? 'active' : ''}`}
                                 onClick={() => switchLoginType('admin_seksi')}
                             >
-                                <span className="toggle-icon">🏛️</span>
+                                <span className="toggle-icon"><FlatIcon name="landmark" size={16} /></span>
                                 <span className="toggle-label">Admin Seksi</span>
                             </button>
                         </div>
 
                         <div className="login-header">
                             <div className="login-header-icon">
-                                {loginType === 'super_admin' ? '🔐' : '🔑'}
+                                {loginType === 'super_admin' ? <FlatIcon name="lock" size={24} /> : <FlatIcon name="key" size={24} />}
                             </div>
                             <h2>{loginType === 'super_admin' ? 'Login Super Admin' : 'Login Admin Seksi'}</h2>
                             <p>
@@ -147,7 +148,7 @@ const LoginPage = () => {
                             {loginType === 'admin_seksi' && (
                                 <div className="form-group">
                                     <label>
-                                        <span className="label-icon">👤</span>
+                                        <span className="label-icon"><FlatIcon name="user" size={14} /></span>
                                         Username
                                     </label>
                                     <div className="input-wrapper">
@@ -164,7 +165,7 @@ const LoginPage = () => {
 
                             <div className="form-group">
                                 <label>
-                                    <span className="label-icon">🔒</span>
+                                    <span className="label-icon"><FlatIcon name="lock" size={14} /></span>
                                     Password
                                 </label>
                                 <div className="input-wrapper password-wrapper">
@@ -180,14 +181,14 @@ const LoginPage = () => {
                                         className="password-toggle"
                                         onClick={() => setShowPassword(!showPassword)}
                                     >
-                                        {showPassword ? '🙈' : '👁️'}
+                                        {showPassword ? <FlatIcon name="eye-off" size={16} /> : <FlatIcon name="eye" size={16} />}
                                     </button>
                                 </div>
                             </div>
 
                             {error && (
                                 <div className="login-error">
-                                    <span className="error-icon">⚠️</span>
+                                    <span className="error-icon"><FlatIcon name="warning" size={14} color="#ef4444" /></span>
                                     {error}
                                 </div>
                             )}
@@ -204,7 +205,7 @@ const LoginPage = () => {
                                     </>
                                 ) : (
                                     <>
-                                        🚀 Masuk
+                                        <FlatIcon name="rocket" size={16} /> Masuk
                                     </>
                                 )}
                             </button>
@@ -213,8 +214,8 @@ const LoginPage = () => {
                         <div className="login-footer">
                             <p>
                                 {loginType === 'super_admin'
-                                    ? '💡 Hubungi administrator jika lupa password'
-                                    : '💡 Hubungi Super Admin untuk mendapatkan akun'
+                                    ? <><FlatIcon name="bulb" size={14} /> Hubungi administrator jika lupa password</>
+                                    : <><FlatIcon name="bulb" size={14} /> Hubungi Super Admin untuk mendapatkan akun</>
                                 }
                             </p>
                         </div>
@@ -223,7 +224,7 @@ const LoginPage = () => {
                         <div className="role-info">
                             {loginType === 'super_admin' ? (
                                 <div className="role-badge super">
-                                    <span>👑</span>
+                                    <span><FlatIcon name="crown" size={20} /></span>
                                     <div>
                                         <strong>Full Access</strong>
                                         <p>Akses & edit semua seksi, kelola admin</p>
@@ -231,7 +232,7 @@ const LoginPage = () => {
                                 </div>
                             ) : (
                                 <div className="role-badge section">
-                                    <span>🏛️</span>
+                                    <span><FlatIcon name="landmark" size={20} /></span>
                                     <div>
                                         <strong>Limited Access</strong>
                                         <p>View seksi sendiri, edit perlu izin Super Admin</p>
