@@ -1335,7 +1335,6 @@ ${printContent.innerHTML}
                                                                                     <tr key={`item-${plan.id}`} className="gov-row-item">
                                                                                         <td className="td-uraian indent-4">
                                                                                             {subKompItem ? `${subKompItem.kode} ` : ''}{itemItm ? `${itemItm.kode} ` : ''}{plan.title}
-                                                                                            <span className="gov-item-category">{plan.category}</span>
                                                                                         </td>
                                                                                         <td className="td-num">{formatNumber(plan.budget)}</td>
                                                                                         <td className="td-num">0</td>
