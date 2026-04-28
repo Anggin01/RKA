@@ -1822,6 +1822,14 @@
 .indent-3 { padding-left: 52px !important; }
 .indent-4 { padding-left: 68px !important; }
 .indent-5 { padding-left: 84px !important; }
+.indent-6 { padding-left: 100px !important; }
+
+/* Grouped akun header in report rincian */
+.gov-row-rincian-akun td {
+    background: #f8f9fa;
+    border-top: 1px solid #e0e0e0;
+    font-size: 11px;
+}
 
 .gov-item-category {
     display: block;

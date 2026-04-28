@@ -1344,29 +1344,64 @@ ${printContent.innerHTML}
                                                                                     </tr>
                                                                                 );
 
-                                                                                // Rincian Akun/Item
+                                                                                // Rincian Akun/Item — grouped by Akun
                                                                                 const rincianArr = Array.isArray(plan.rincianRealisasi)
                                                                                     ? plan.rincianRealisasi
                                                                                     : (typeof plan.rincianRealisasi === 'string' ? (() => { try { return JSON.parse(plan.rincianRealisasi); } catch { return []; } })() : []);
                                                                                 if (rincianArr && rincianArr.length > 0) {
+                                                                                    // Group rincian by akunId
+                                                                                    const akunGroups = {};
                                                                                     rincianArr.forEach(rincian => {
-                                                                                        const rAkun = rincian.akunId ? uraianData.akun.find(u => u.id === parseInt(rincian.akunId)) : null;
-                                                                                        const rItem = rincian.itemId ? uraianData.item.find(u => u.id === parseInt(rincian.itemId)) : null;
-                                                                                        const nominalStr = typeof rincian.nominal === 'string' ? rincian.nominal.replace(/\D/g, '') : rincian.nominal;
-                                                                                        const nominal = parseInt(nominalStr) || 0;
+                                                                                        const akunKey = rincian.akunId || '__no_akun__';
+                                                                                        if (!akunGroups[akunKey]) akunGroups[akunKey] = [];
+                                                                                        akunGroups[akunKey].push(rincian);
+                                                                                    });
 
-                                                                                        rows.push(
-                                                                                            <tr key={`rincian-${rincian.id}`} className="gov-row-rincian">
-                                                                                                <td className="td-uraian indent-5">
-                                                                                                    <span style={{ color: '#888' }}>↳ {rAkun ? `[${rAkun.kode}] ${rAkun.nama}` : ''} {rItem ? `- [${rItem.kode}] ${rItem.nama}` : ''}</span>
-                                                                                                </td>
-                                                                                                <td className="td-num">-</td>
-                                                                                                <td className="td-num">-</td>
-                                                                                                <td className="td-num">{formatNumber(nominal)}</td>
-                                                                                                <td className="td-num">-</td>
-                                                                                                <td className="td-num">-</td>
-                                                                                            </tr>
-                                                                                        );
+                                                                                    Object.entries(akunGroups).forEach(([akunKey, items]) => {
+                                                                                        const rAkun = akunKey !== '__no_akun__' ? uraianData.akun.find(u => u.id === parseInt(akunKey)) : null;
+                                                                                        // Calculate akun group total
+                                                                                        const akunTotal = items.reduce((sum, r) => {
+                                                                                            const ns = typeof r.nominal === 'string' ? r.nominal.replace(/\D/g, '') : r.nominal;
+                                                                                            return sum + (parseInt(ns) || 0);
+                                                                                        }, 0);
+
+                                                                                        // Akun header row
+                                                                                        if (rAkun) {
+                                                                                            rows.push(
+                                                                                                <tr key={`rincian-akun-${plan.id}-${akunKey}`} className="gov-row-rincian-akun">
+                                                                                                    <td className="td-uraian indent-5" style={{ fontWeight: 600, color: '#555' }}>
+                                                                                                        [{rAkun.kode}] {rAkun.nama}
+                                                                                                    </td>
+                                                                                                    <td className="td-num">-</td>
+                                                                                                    <td className="td-num">-</td>
+                                                                                                    <td className="td-num" style={{ fontWeight: 600 }}>{formatNumber(akunTotal)}</td>
+                                                                                                    <td className="td-num">-</td>
+                                                                                                    <td className="td-num">-</td>
+                                                                                                </tr>
+                                                                                            );
+                                                                                        }
+
+                                                                                        // Item rows under this akun
+                                                                                        items.forEach(rincian => {
+                                                                                            const rItem = rincian.itemId ? uraianData.item.find(u => u.id === parseInt(rincian.itemId)) : null;
+                                                                                            const nominalStr = typeof rincian.nominal === 'string' ? rincian.nominal.replace(/\D/g, '') : rincian.nominal;
+                                                                                            const nominal = parseInt(nominalStr) || 0;
+
+                                                                                            if (rItem) {
+                                                                                                rows.push(
+                                                                                                    <tr key={`rincian-${rincian.id}`} className="gov-row-rincian">
+                                                                                                        <td className="td-uraian indent-6">
+                                                                                                            <span style={{ color: '#888' }}>↳ [{rItem.kode}] {rItem.nama}</span>
+                                                                                                        </td>
+                                                                                                        <td className="td-num">-</td>
+                                                                                                        <td className="td-num">-</td>
+                                                                                                        <td className="td-num">{formatNumber(nominal)}</td>
+                                                                                                        <td className="td-num">-</td>
+                                                                                                        <td className="td-num">-</td>
+                                                                                                    </tr>
+                                                                                                );
+                                                                                            }
+                                                                                        });
                                                                                     });
                                                                                 }
                                                                             });
