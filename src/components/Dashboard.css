@@ -480,10 +480,11 @@
 
 .form-row input,
 .form-row select {
-    padding: 10px 14px;
-    border: 2px solid #dbeafe;
-    border-radius: 8px;
-    font-size: 0.9rem;
+    padding: 8px 12px;
+    border: 1.2px solid #dbeafe;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    height: 32px;
     transition: all 0.3s ease;
 }
 
@@ -657,12 +658,22 @@
     align-items: center;
 }
 
+.password-input-group input {
+    width: 100%;
+    padding: 10px 16px;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    height: 38px;
+}
+
 .event-edit-mode input {
     flex: 1;
-    padding: 8px 12px;
+    padding: 6px 10px;
     border: 2px solid #dbeafe;
     border-radius: 6px;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    height: 30px;
 }
 
 .event-edit-mode input:focus {

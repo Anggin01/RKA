@@ -186,3 +186,31 @@ body {
     transform: rotate(360deg);
   }
 }
+
+/* Global Formal Input Styles */
+input,
+select,
+textarea {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+  border-radius: 2px;
+  border: 1.2px solid #cbd5e1;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  color: #1e293b;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+  line-height: normal;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #334e68;
+  box-shadow: 0 0 0 2px rgba(51, 78, 104, 0.1);
+  background-color: #f8fafc;
+}
+
+button {
+  font-family: 'Inter', 'Segoe UI', sans-serif;
+}

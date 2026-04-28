@@ -71,9 +71,19 @@ export const getWorkPlans = async (sectionId) => {
             description: plan.deskripsi,
             budget: plan.anggaran || 0,
             realization: plan.realisasi || 0,
+            rincianRealisasi: plan.rincian_realisasi || [],
+            lockPagu: plan.lock_pagu || 0,
             status: plan.status,
             deadline: plan.tenggat,
-            category: plan.kategori || 'Belanja Barang'
+            category: plan.kategori || 'Belanja Barang',
+            programId: plan.program_id || null,
+            subProgramId: plan.sub_program_id || null,
+            outputId: plan.output_id || null,
+            subOutputId: plan.sub_output_id || null,
+            komponenId: plan.komponen_id || null,
+            subKomponenId: plan.sub_komponen_id || null,
+            akunId: plan.akun_id || null,
+            itemId: plan.item_id || null,
         }));
     } catch (error) {
         console.error('Error mengambil rencana kerja:', error);
@@ -92,9 +102,19 @@ export const addWorkPlan = async (sectionId, workPlan) => {
                 deskripsi: workPlan.description || null,
                 anggaran: workPlan.budget || 0,
                 realisasi: workPlan.realization || 0,
+                rincian_realisasi: workPlan.rincianRealisasi || [],
+                lock_pagu: workPlan.lockPagu || 0,
                 status: workPlan.status || 'pending',
                 tenggat: workPlan.deadline,
-                kategori: workPlan.category || 'Belanja Barang'
+                kategori: workPlan.category || 'Belanja Barang',
+                program_id: workPlan.programId || null,
+                sub_program_id: workPlan.subProgramId || null,
+                output_id: workPlan.outputId || null,
+                sub_output_id: workPlan.subOutputId || null,
+                komponen_id: workPlan.komponenId || null,
+                sub_komponen_id: workPlan.subKomponenId || null,
+                akun_id: workPlan.akunId || null,
+                item_id: workPlan.itemId || null,
             }])
             .select()
             .single();
@@ -108,9 +128,19 @@ export const addWorkPlan = async (sectionId, workPlan) => {
             description: data.deskripsi,
             budget: data.anggaran,
             realization: data.realisasi,
+            rincianRealisasi: data.rincian_realisasi || [],
+            lockPagu: data.lock_pagu || 0,
             status: data.status,
             deadline: data.tenggat,
-            category: data.kategori
+            category: data.kategori,
+            programId: data.program_id || null,
+            subProgramId: data.sub_program_id || null,
+            outputId: data.output_id || null,
+            subOutputId: data.sub_output_id || null,
+            komponenId: data.komponen_id || null,
+            subKomponenId: data.sub_komponen_id || null,
+            akunId: data.akun_id || null,
+            itemId: data.item_id || null,
         };
     } catch (error) {
         console.error('Error menambah rencana kerja:', error);
@@ -128,9 +158,19 @@ export const updateWorkPlan = async (sectionId, planId, updates) => {
                 deskripsi: updates.description,
                 anggaran: updates.budget || 0,
                 realisasi: updates.realization || 0,
+                rincian_realisasi: updates.rincianRealisasi || [],
+                lock_pagu: updates.lockPagu || 0,
                 status: updates.status,
                 tenggat: updates.deadline,
                 kategori: updates.category,
+                program_id: updates.programId || null,
+                sub_program_id: updates.subProgramId || null,
+                output_id: updates.outputId || null,
+                sub_output_id: updates.subOutputId || null,
+                komponen_id: updates.komponenId || null,
+                sub_komponen_id: updates.subKomponenId || null,
+                akun_id: updates.akunId || null,
+                item_id: updates.itemId || null,
                 diperbarui_pada: new Date().toISOString()
             })
             .eq('id', planId)
@@ -185,9 +225,18 @@ export const getAllWorkPlans = async () => {
                 description: plan.deskripsi,
                 budget: plan.anggaran || 0,
                 realization: plan.realisasi || 0,
+                lockPagu: plan.lock_pagu || 0,
                 status: plan.status,
                 deadline: plan.tenggat,
-                category: plan.kategori || 'Belanja Barang'
+                category: plan.kategori || 'Belanja Barang',
+                programId: plan.program_id || null,
+                subProgramId: plan.sub_program_id || null,
+                outputId: plan.output_id || null,
+                subOutputId: plan.sub_output_id || null,
+                komponenId: plan.komponen_id || null,
+                subKomponenId: plan.sub_komponen_id || null,
+                akunId: plan.akun_id || null,
+                itemId: plan.item_id || null,
             });
         });
 
@@ -383,6 +432,163 @@ export const calculateTotalUsedBudget = async () => {
     } catch (error) {
         console.error('Error menghitung total anggaran terpakai:', error);
         return 0;
+    }
+};
+
+// =============================================
+// URAIAN MASTER - OPERASI SUPABASE
+// Program > Sub-Program > Output > Sub-Output > Komponen > Sub-Komponen > Akun > Item
+// =============================================
+
+// Cek apakah tabel uraian_master sudah ada
+export const checkUraianTableExists = async () => {
+    try {
+        const { error } = await supabase
+            .from('uraian_master')
+            .select('id')
+            .limit(1);
+        // 42P01 = undefined_table (table doesn't exist)
+        if (error && (error.code === '42P01' || error.message?.includes('does not exist') || error.hint?.includes('uraian_master'))) {
+            return false;
+        }
+        return !error;
+    } catch {
+        return false;
+    }
+};
+
+// Ambil semua uraian berdasarkan jenis
+export const getUraianByJenis = async (jenis, parentId = null) => {
+    try {
+        // Single order call to avoid PostgREST URL encoding issues
+        let query = supabase
+            .from('uraian_master')
+            .select('*')
+            .eq('jenis', jenis)
+            .eq('aktif', true)
+            .order('urutan');
+
+        if (parentId !== null) {
+            query = query.eq('parent_id', parentId);
+        }
+
+        const { data, error } = await query;
+
+        // Tabel belum dibuat — gagal diam-diam
+        if (error) {
+            const isMissingTable = error.code === '42P01'
+                || (error.message || '').includes('does not exist')
+                || error.details?.includes('uraian_master');
+            if (!isMissingTable) {
+                console.warn('getUraianByJenis error:', error.message);
+            }
+            return [];
+        }
+        return data || [];
+    } catch {
+        return [];
+    }
+};
+
+// Ambil semua uraian (untuk admin)
+export const getAllUraian = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('uraian_master')
+            .select('*')
+            .order('jenis', { ascending: true })
+            .order('urutan', { ascending: true })
+            .order('kode', { ascending: true });
+
+        if (error) throw error;
+        return data || [];
+    } catch (error) {
+        console.error('Error mengambil semua uraian:', error);
+        return [];
+    }
+};
+
+// Tambah uraian baru
+export const addUraianItem = async (item) => {
+    try {
+        const { data, error } = await supabase
+            .from('uraian_master')
+            .insert([{
+                kode: item.kode,
+                nama: item.nama,
+                jenis: item.jenis,
+                parent_id: item.parentId || null,
+                seksi_id: item.seksiId || null,
+                urutan: item.urutan || 0,
+                aktif: true
+            }])
+            .select()
+            .single();
+
+        if (error) throw error;
+        return data;
+    } catch (error) {
+        console.error('Error menambah uraian:', error);
+        return null;
+    }
+};
+
+// Update uraian
+export const updateUraianItem = async (id, updates) => {
+    try {
+        const { data, error } = await supabase
+            .from('uraian_master')
+            .update({
+                kode: updates.kode,
+                nama: updates.nama,
+                jenis: updates.jenis,
+                parent_id: updates.parentId || null,
+                urutan: updates.urutan || 0,
+                aktif: updates.aktif !== undefined ? updates.aktif : true,
+                diperbarui_pada: new Date().toISOString()
+            })
+            .eq('id', id)
+            .select()
+            .single();
+
+        if (error) throw error;
+        return data;
+    } catch (error) {
+        console.error('Error memperbarui uraian:', error);
+        return null;
+    }
+};
+
+// Hapus uraian
+export const deleteUraianItem = async (id) => {
+    try {
+        const { error } = await supabase
+            .from('uraian_master')
+            .delete()
+            .eq('id', id);
+
+        if (error) throw error;
+        return true;
+    } catch (error) {
+        console.error('Error menghapus uraian:', error);
+        return false;
+    }
+};
+
+// Ambil satu uraian berdasarkan ID
+export const getUraianById = async (id) => {
+    try {
+        const { data, error } = await supabase
+            .from('uraian_master')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+        if (error) throw error;
+        return data;
+    } catch (error) {
+        console.error('Error mengambil uraian by ID:', error);
+        return null;
     }
 };
 

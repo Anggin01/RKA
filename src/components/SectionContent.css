@@ -1483,3 +1483,898 @@
     font-size: 1rem;
     max-width: 400px;
 }
+
+/* ============================================
+   MODAL WIDE (for edit/add with uraian)
+   ============================================ */
+.modal-content-wide {
+    max-width: 700px !important;
+}
+
+/* Form section title & divider */
+.form-section-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e3a5f;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.form-section-subtitle {
+    font-size: 0.78rem;
+    font-weight: 400;
+    color: #6b7280;
+    margin-left: 6px;
+    font-style: italic;
+}
+.form-section-divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 20px 0;
+}
+
+/* 2-column form row */
+.form-row-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+@media (max-width: 560px) {
+    .form-row-2col { grid-template-columns: 1fr; }
+}
+
+/* Uraian grid */
+.uraian-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 20px;
+}
+@media (max-width: 560px) {
+    .uraian-grid { grid-template-columns: 1fr; }
+}
+
+.uraian-field {
+    margin-bottom: 0 !important;
+}
+
+/* Uraian badges */
+.uraian-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+}
+.uraian-badge.prog        { background: #dbeafe; color: #1e40af; }
+.uraian-badge.sub-prog    { background: #e0e7ff; color: #3730a3; }
+.uraian-badge.output      { background: #fef3c7; color: #92400e; }
+.uraian-badge.sub-output  { background: #fde68a; color: #78350f; }
+.uraian-badge.komponen    { background: #dcfce7; color: #15803d; }
+.uraian-badge.sub-komponen{ background: #d1fae5; color: #065f46; }
+.uraian-badge.akun        { background: #ffe4e6; color: #9f1239; }
+.uraian-badge.item        { background: #f0fdf4; color: #166534; }
+
+.input-help-warn {
+    display: block;
+    font-size: 0.75rem;
+    color: #d97706;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+/* Workplan uraian tags */
+.workplan-uraian-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 6px 0 8px 0;
+}
+.uraian-tag {
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+.uraian-tag.prog  { background: #dbeafe; color: #1e40af; }
+.uraian-tag.out   { background: #fef3c7; color: #92400e; }
+.uraian-tag.komp  { background: #dcfce7; color: #15803d; }
+
+/* ============================================
+   REPORT MODAL - Government Style
+   ============================================ */
+.report-modal-gov {
+    max-width: 1050px !important;
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top bar (replaces old report-header) */
+.report-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, #1e3a5f 0%, #0f172a 100%);
+    border-radius: 16px 16px 0 0;
+    flex-shrink: 0;
+}
+.report-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.report-topbar-icon { font-size: 1.8rem; }
+.report-topbar-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+}
+.report-topbar-sub {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    margin-top: 2px;
+}
+.report-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Print/Download button */
+.btn-report-action.print {
+    padding: 9px 18px;
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+.btn-report-action.print:hover {
+    background: rgba(255,255,255,0.28);
+    transform: translateY(-1px);
+}
+
+/* Fix close btn in topbar */
+.report-topbar .modal-close {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    flex-shrink: 0;
+}
+.report-topbar .modal-close:hover {
+    background: rgba(255,255,255,0.22);
+}
+
+/* Body scroll area for report */
+.report-modal-gov .report-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 24px;
+    max-height: calc(92vh - 160px);
+}
+
+/* Gov report wrapper */
+.gov-report-wrapper { }
+
+.gov-report-print-area {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #111;
+}
+
+/* Report Header Block */
+.gov-report-header {
+    text-align: center;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #1e3a5f;
+}
+.gov-report-header h1 {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 5px;
+    color: #1e3a5f;
+}
+.gov-report-header p {
+    font-size: 11px;
+    color: #444;
+    margin: 2px 0;
+}
+
+/* Meta table */
+.gov-meta-table {
+    margin-bottom: 14px;
+    position: relative;
+}
+.gov-meta-table table {
+    width: auto;
+    border-collapse: collapse;
+    font-size: 11px;
+}
+.gov-meta-table td {
+    padding: 2px 5px;
+    vertical-align: top;
+    line-height: 1.5;
+}
+.gov-meta-table td:first-child { min-width: 110px; }
+.gov-meta-table td:nth-child(2) { width: 12px; }
+.gov-hal {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 11px;
+    color: #555;
+}
+
+/* Gov main table */
+.gov-table-scroll {
+    overflow-x: auto;
+    border-radius: 8px;
+    border: 1px solid #c8d4e0;
+}
+.gov-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    min-width: 750px;
+}
+.gov-table th {
+    background: #1e3a5f;
+    color: #fff;
+    padding: 8px 10px;
+    text-align: center;
+    border: 1px solid #2a4d7a;
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 1.3;
+}
+.gov-table .th-uraian  { width: 40%; text-align: left; }
+.gov-table .th-pagu    { width: 12%; }
+.gov-table .th-lock    { width: 8%; }
+.gov-table .th-realisasi-group { background: #1a5276; }
+.gov-table .th-realisasi-sub { background: #1a5276; font-size: 10px; }
+.gov-table .th-sisa    { width: 12%; background: #c0392b; }
+
+.gov-table td {
+    padding: 5px 8px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+    line-height: 1.4;
+}
+.td-uraian { text-align: left; }
+.td-num    { text-align: right; font-family: 'Courier New', monospace; white-space: nowrap; }
+
+/* Row types */
+.gov-row-jumlah td {
+    background: #1e3a5f;
+    color: #fff;
+    font-weight: bold;
+    border-color: #2a4d7a;
+}
+.gov-row-program td {
+    background: #d4e2f0;
+    font-weight: bold;
+    color: #1a2e4a;
+    border-color: #b8cfe0;
+}
+.gov-row-sub-program td {
+    background: #e8ecf3;
+    font-weight: normal;
+    color: #1a2e4a;
+    border-color: #c8d4e5;
+}
+.gov-row-output td {
+    background: #fef9e7;
+    font-weight: bold;
+    border-color: #f0e0a0;
+}
+.gov-row-sub-output td {
+    background: #fef3c7;
+    font-weight: bold;
+    color: #b45309;
+    border-color: #f0e0a0;
+}
+.gov-row-komponen td {
+    background: #f0f7f4;
+    font-weight: 600;
+    border-color: #d4e8df;
+}
+.gov-row-akun td {
+    background: #fff;
+    font-weight: normal;
+    border-color: #e5e7eb;
+}
+.gov-row-item td {
+    background: #fafafa;
+    border-color: #e5e7eb;
+}
+.gov-row-rincian td {
+    background: #fafafa;
+    font-style: italic;
+    color: #555;
+    border-color: #e5e7eb;
+}
+.gov-row-total td {
+    background: #1e3a5f;
+    color: #fff;
+    font-weight: bold;
+    border-color: #2a4d7a;
+}
+
+.gov-bold { font-weight: bold !important; }
+.gov-orange { color: #cc6600 !important; }
+.gov-red { color: #cc0000 !important; }
+
+/* indent classes */
+.indent-1 { padding-left: 20px !important; }
+.indent-2 { padding-left: 36px !important; }
+.indent-3 { padding-left: 52px !important; }
+.indent-4 { padding-left: 68px !important; }
+.indent-5 { padding-left: 84px !important; }
+
+.gov-item-category {
+    display: block;
+    font-size: 9px;
+    color: #777;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: 2px;
+}
+.gov-output-label {
+    color: #b35900 !important;
+    font-style: italic;
+}
+.gov-footnote {
+    font-size: 10px;
+    color: #555;
+    border-top: 1px solid #ccc;
+    padding-top: 8px;
+    margin-top: 12px;
+    font-style: italic;
+}
+
+/* Anggaran header */
+.anggaran-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+@media print {
+    .modal-overlay { display: none !important; }
+    body * { visibility: hidden; }
+    .gov-report-print-area,
+    .gov-report-print-area * { visibility: visible; }
+    .gov-report-print-area {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        padding: 10mm;
+    }
+}
+
+/* =============================================
+   URAIAN LABEL ROW + ADD BUTTON
+   ============================================= */
+.uraian-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.btn-add-uraian {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #15803d;
+    background: #dcfce7;
+    border: 1px solid #86efac;
+    border-radius: 20px;
+    padding: 3px 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1;
+    white-space: nowrap;
+    letter-spacing: 0.01em;
+}
+.btn-add-uraian:hover {
+    background: #bbf7d0;
+    border-color: #4ade80;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(21,128,61,0.15);
+}
+
+.uraian-action-btns {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-delete-uraian {
+    font-size: 0.72rem;
+    color: #dc2626;
+    background: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 20px;
+    padding: 3px 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.btn-delete-uraian:hover {
+    background: #fecaca;
+    border-color: #f87171;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(220,38,38,0.15);
+}
+
+.input-help-empty {
+    display: block;
+    font-size: 0.72rem;
+    color: #6b7280;
+    margin-top: 5px;
+    font-style: italic;
+}
+.input-help-empty strong {
+    color: #15803d;
+    font-style: normal;
+}
+
+/* =============================================
+   QUICK-ADD URAIAN MINI MODAL
+   ============================================= */
+.uraian-mini-overlay {
+    z-index: 2000 !important;
+}
+
+.uraian-mini-modal {
+    background: #fff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+    animation: modalSlideIn 0.25s ease;
+    overflow: hidden;
+}
+
+.uraian-mini-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e5e7eb;
+}
+.uraian-mini-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.uraian-mini-heading {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1e3a5f;
+}
+
+.uraian-mini-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.uraian-mini-parent-info {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-size: 0.8rem;
+    color: #1d4ed8;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.uraian-mini-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+.uraian-mini-row .form-group {
+    margin-bottom: 0;
+}
+.uraian-mini-row .form-group input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+    background: #f9fafb;
+}
+.uraian-mini-row .form-group input:focus {
+    outline: none;
+    border-color: #1e3a5f;
+    background: #fff;
+}
+.uraian-mini-row .form-group label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.uraian-mini-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 14px 20px;
+    border-top: 1px solid #e5e7eb;
+    background: #f8fafc;
+}
+.uraian-mini-footer .btn-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* =============================================
+   SQL MIGRATION BANNER
+   ============================================= */
+.migration-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: #fffbeb;
+    border: 1.5px solid #fbbf24;
+    border-radius: 12px;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+    animation: slideDown 0.3s ease;
+}
+.migration-banner-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    line-height: 1;
+    margin-top: 2px;
+}
+.migration-banner-content {
+    flex: 1;
+}
+.migration-banner-content strong {
+    font-size: 0.92rem;
+    color: #92400e;
+    display: block;
+    margin-bottom: 4px;
+}
+.migration-banner-content p {
+    font-size: 0.82rem;
+    color: #b45309;
+    margin: 0 0 10px 0;
+    line-height: 1.4;
+}
+.migration-steps {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.82rem;
+    color: #78350f;
+    margin-bottom: 6px;
+}
+.migration-steps:last-child { margin-bottom: 0; }
+.migration-step {
+    width: 20px;
+    height: 20px;
+    background: #f59e0b;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.migration-steps a {
+    color: #1d4ed8;
+    text-decoration: underline;
+    font-weight: 600;
+}
+.migration-steps a:hover { color: #1e40af; }
+.migration-steps code {
+    background: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.78rem;
+    color: #92400e;
+}
+
+/* Disabled/dimmed uraian grid when table missing */
+.uraian-grid-disabled {
+    opacity: 0.35;
+    pointer-events: none;
+    user-select: none;
+    filter: grayscale(0.3);
+}
+
+/* =============================================
+   FORMAL STYLING OVERRIDES (Edit/Tambah Rencana Kerja)
+   ============================================= */
+.modal-content-wide .formal-header {
+    background: #f8fafc;
+    border-bottom: 2px solid #1e3a8a;
+    padding: 16px 24px;
+    border-radius: 8px 8px 0 0;
+}
+
+.formal-header .modal-title h2 {
+    color: #1e3a8a;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.formal-section-title {
+    font-size: 1.05rem !important;
+    color: #1e3a5f !important;
+    border-left: 4px solid #1e3a8a;
+    padding-left: 10px;
+    margin-bottom: 16px !important;
+    background: #f1f5f9;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    display: flex;
+    align-items: center;
+    border-radius: 0 4px 4px 0;
+    font-weight: 700;
+}
+
+.formal-section-title .form-section-subtitle {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.formal-body {
+    padding: 24px !important;
+}
+
+.formal-body .form-group label {
+    font-weight: 600;
+    color: #334155;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+}
+
+.formal-body input,
+.formal-body textarea,
+.formal-body select,
+.formal-body .input-currency {
+    border-radius: 2px !important;
+    border: 1.2px solid #cbd5e1 !important;
+    padding: 6px 10px !important;
+    font-size: 0.82rem !important;
+    color: #1e293b !important;
+    background-color: #ffffff !important;
+    transition: all 0.2s ease;
+    width: 100%;
+    height: 34px; /* Fixed height for formal look */
+}
+
+.formal-body textarea {
+    height: auto !important;
+    min-height: 80px;
+}
+
+.formal-body .input-currency input {
+    padding: 0 10px !important;
+    border: none !important;
+    height: 31px !important;
+}
+
+.formal-body input:focus,
+.formal-body textarea:focus,
+.formal-body select:focus {
+    border-color: #334e68 !important;
+    box-shadow: none !important;
+    background-color: #f8fafc !important;
+    outline: 2px solid rgba(51, 78, 104, 0.1) !important;
+}
+
+.formal-body .input-currency {
+    overflow: hidden;
+}
+
+.formal-body .input-currency .currency-prefix {
+    background: #f1f5f9;
+    border-right: 1px solid #cbd5e1;
+}
+
+.formal-body .input-currency input {
+    border: none !important;
+}
+
+/* Rincian Realisasi list */
+.rincian-realisasi-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.rincian-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    background: #f8fafc;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+}
+
+.rincian-date {
+    width: 140px;
+}
+
+.rincian-desc {
+    flex: 1;
+}
+
+.rincian-nominal {
+    flex: 1 1 180px;
+    min-width: 150px;
+    margin-bottom: 0 !important;
+}
+
+.btn-delete-rincian {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fee2e2;
+    color: #ef4444;
+    border: 1px solid #fecaca;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.btn-delete-rincian:hover {
+    background: #fecaca;
+    color: #dc2626;
+}
+
+.btn-add-rincian {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px dashed #94a3b8;
+    color: #475569;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 4px;
+}
+
+.btn-add-rincian:hover {
+    background: #f1f5f9;
+    border-color: #64748b;
+    color: #334155;
+}
+
+.rincian-select {
+    width: 100%;
+    padding: 4px 8px;
+    border: 1.2px solid #cbd5e1;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    color: #1e293b;
+    background-color: #ffffff;
+    height: 30px;
+}
+
+.rincian-select:focus {
+    outline: none;
+    border-color: #334e68;
+    background-color: #f8fafc;
+}
+
+.rincian-field-with-actions {
+    flex: 1;
+    min-width: 0; /* Allow shrinking */
+}
+
+.rincian-mini-actions {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.btn-mini-add, .btn-mini-del {
+    padding: 1px 6px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+}
+
+.btn-mini-add {
+    background: #dcfce7;
+    color: #166534;
+    border-color: #bbf7d0;
+}
+
+.btn-mini-add:hover {
+    background: #bbf7d0;
+    transform: translateY(-1px);
+}
+
+.btn-mini-del {
+    background: #fee2e2;
+    color: #991b1b;
+    border-color: #fecaca;
+}
+
+.btn-mini-del:hover {
+    background: #fecaca;
+    transform: translateY(-1px);
+}
+
+.rincian-row-wrapper {
+    margin-bottom: 8px;
+}
+
+.rincian-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 8px;
+    align-items: flex-start;
+    background: #ffffff;
+    padding: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+}
+
+.rincian-nominal {
+    width: 130px !important;
+    flex: 0 0 130px !important;
+    margin-bottom: 0 !important;
+}
+
+.rincian-nominal input {
+    height: 30px !important;
+    font-size: 0.82rem !important;
+}
+

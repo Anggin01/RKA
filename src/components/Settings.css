@@ -222,14 +222,14 @@
 
 .password-input-group input {
     width: 100%;
-    padding: 14px 48px 14px 16px;
-    border: 2px solid #e5e7eb;
-    border-radius: 12px;
-    font-size: 1rem;
-    color: #1f2937;
+    padding: 8px 16px;
+    border: 1.2px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 0.85rem;
     background: #f9fafb;
     transition: all 0.3s ease;
     outline: none;
+    height: 34px;
 }
 
 .password-input-group input:focus {
@@ -814,14 +814,15 @@
 
 .password-form-group input {
     width: 100%;
-    padding: 12px 14px;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
-    font-size: 0.9rem;
+    padding: 6px 12px;
+    border: 1.2px solid #e5e7eb;
+    border-radius: 4px;
+    font-size: 0.82rem;
     color: #1f2937;
     background: #f9fafb;
     transition: all 0.3s ease;
     outline: none;
+    height: 32px;
 }
 
 .password-form-group input:focus {
@@ -1019,12 +1020,13 @@
 
 .modal-form-group input {
     width: 100%;
-    padding: 12px 14px;
-    border: 2px solid #e5e7eb;
-    border-radius: 10px;
-    font-size: 0.9rem;
+    padding: 6px 12px;
+    border: 1.2px solid #e5e7eb;
+    border-radius: 3px;
+    font-size: 0.82rem;
     outline: none;
     transition: all 0.3s ease;
+    height: 32px;
 }
 
 .modal-form-group input:focus {
