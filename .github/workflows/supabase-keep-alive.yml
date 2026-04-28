@@ -12,20 +12,32 @@ jobs:
     
     steps:
       - name: Ping Supabase Database
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}
         run: |
+          if [ -z "$SUPABASE_URL" ]; then
+            echo "❌ Error: SUPABASE_URL (atau VITE_SUPABASE_URL) secret belum disetting di GitHub Settings > Secrets and variables > Actions!"
+            exit 1
+          fi
+
           echo "Pinging Supabase to keep project alive..."
           
-          # Ping menggunakan Supabase REST API
-          response=$(curl -s -o /dev/null -w "%{http_code}" \
-            -X GET "${{ secrets.SUPABASE_URL }}/rest/v1/pagu_seksi?select=seksi_id&limit=1" \
-            -H "apikey: ${{ secrets.SUPABASE_ANON_KEY }}" \
-            -H "Authorization: Bearer ${{ secrets.SUPABASE_ANON_KEY }}")
+          # Ping menggunakan Supabase REST API (ambil data 1 baris saja, atau bisa endpoint root)
+          # Simpan response body ke file agar bisa dicek jika gagal
+          HTTP_STATUS=$(curl -s -o response.txt -w "%{http_code}" \
+            -X GET "$SUPABASE_URL/rest/v1/pagu_seksi?select=*&limit=1" \
+            -H "apikey: $SUPABASE_ANON_KEY" \
+            -H "Authorization: Bearer $SUPABASE_ANON_KEY" \
+            -H "Content-Profile: public")
           
-          if [ "$response" = "200" ]; then
-            echo "✅ Keep-alive ping successful! HTTP Status: $response"
+          if [ "$HTTP_STATUS" = "200" ] || [ "$HTTP_STATUS" = "206" ]; then
+            echo "✅ Keep-alive ping successful! HTTP Status: $HTTP_STATUS"
             echo "📅 Timestamp: $(date)"
           else
-            echo "❌ Keep-alive ping failed! HTTP Status: $response"
+            echo "❌ Keep-alive ping failed! HTTP Status: $HTTP_STATUS"
+            echo "Response body:"
+            cat response.txt || true
             exit 1
           fi
 
