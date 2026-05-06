@@ -301,15 +301,25 @@ export const calculateSectionBudget = async (sectionId) => {
 
         const progress = pagu > 0 ? (terpakai / pagu) * 100 : 0;
 
+        // Sisa Sementara = Pagu - Total Pagu Kegiatan
+        const totalPaguKegiatan = plans.reduce((sum, p) => sum + (p.budget || 0), 0);
+        const sisaSementara = pagu - totalPaguKegiatan;
+
+        // Sisa Bersih = Pagu - Total Realisasi
+        const totalRealisasi = plans.reduce((sum, p) => sum + (parseFloat(p.realization) || 0), 0);
+        const sisaBersih = pagu - totalRealisasi;
+
         return {
             totalPagu: pagu,
             terpakai,
             sisa: pagu - terpakai,
-            progress
+            progress,
+            sisaSementara,
+            sisaBersih
         };
     } catch (error) {
         console.error('Error menghitung anggaran seksi:', error);
-        return { totalPagu: 0, terpakai: 0, sisa: 0, progress: 0 };
+        return { totalPagu: 0, terpakai: 0, sisa: 0, progress: 0, sisaSementara: 0, sisaBersih: 0 };
     }
 };
 

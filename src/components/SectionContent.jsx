@@ -115,6 +115,14 @@ const SectionContent = ({ sectionId, sectionInfo, canEdit = true }) => {
     const sisa = pagu - terpakai;
     const usedPercentage = pagu > 0 ? Math.round((terpakai / pagu) * 100) : 0;
 
+    // Sisa Sementara: Pagu - Total Pagu Kegiatan (sum of all activity budgets)
+    const totalPaguKegiatan_all = workPlans.reduce((sum, wp) => sum + (wp.budget || 0), 0);
+    const sisaSementara = pagu - totalPaguKegiatan_all;
+
+    // Sisa Bersih: Pagu - Total Realisasi (sum of all activity realizations)
+    const totalRealisasi_all = workPlans.reduce((sum, wp) => sum + (parseFloat(wp.realization) || 0), 0);
+    const sisaBersih = pagu - totalRealisasi_all;
+
     const statusCounts = {
         completed: workPlans.filter(wp => wp.status === 'completed').length,
         ongoing: workPlans.filter(wp => wp.status === 'ongoing').length,
@@ -568,9 +576,15 @@ ${printContent.innerHTML}
                         <div className="card-label">Terpakai</div>
                         <div className="card-value orange">{formatCurrency(terpakai)}</div>
                     </div>
-                    <div className="budget-card-item sisa">
-                        <div className="card-label">Sisa</div>
-                        <div className="card-value green">{formatCurrency(sisa)}</div>
+                    <div className={`budget-card-item sisa-sementara ${sisaSementara < 0 ? 'negative' : ''}`}>
+                        <div className="card-label">Sisa Sementara</div>
+                        <div className={`card-value ${sisaSementara < 0 ? 'red' : 'blue'}`}>{formatCurrency(sisaSementara)}</div>
+                        <div className="card-sub">Pagu − Pagu Kegiatan</div>
+                    </div>
+                    <div className={`budget-card-item sisa-bersih ${sisaBersih < 0 ? 'negative' : ''}`}>
+                        <div className="card-label">Sisa Bersih</div>
+                        <div className={`card-value ${sisaBersih < 0 ? 'red' : 'green'}`}>{formatCurrency(sisaBersih)}</div>
+                        <div className="card-sub">Pagu − Total Realisasi</div>
                     </div>
                 </div>
             </div>

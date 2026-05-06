@@ -475,7 +475,7 @@
 /* Budget Cards Row */
 .budget-cards-row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
 }
 
@@ -485,6 +485,12 @@
     border-radius: 12px;
     text-align: center;
     border: 1px solid #e5e7eb;
+    transition: all 0.3s ease;
+}
+
+.budget-card-item:hover {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
 }
 
 .budget-card-item.pagu {
@@ -495,8 +501,18 @@
     border-left: 4px solid #f59e0b;
 }
 
-.budget-card-item.sisa {
+.budget-card-item.sisa-sementara {
+    border-left: 4px solid #3b82f6;
+}
+
+.budget-card-item.sisa-bersih {
     border-left: 4px solid #10b981;
+}
+
+.budget-card-item.negative {
+    border-left-color: #ef4444 !important;
+    background: #fef2f2;
+    border-color: #fecaca;
 }
 
 .card-label {
@@ -521,6 +537,33 @@
 
 .card-value.green {
     color: #10b981;
+}
+
+.card-value.blue {
+    color: #2563eb;
+}
+
+.card-value.red {
+    color: #dc2626;
+}
+
+.card-sub {
+    font-size: 0.7rem;
+    color: #94a3b8;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+@media (max-width: 900px) {
+    .budget-cards-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .budget-cards-row {
+        grid-template-columns: 1fr;
+    }
 }
 
 .btn-edit-pagu {
@@ -1501,6 +1544,7 @@
     align-items: center;
     gap: 10px;
 }
+
 .form-section-subtitle {
     font-size: 0.78rem;
     font-weight: 400;
@@ -1508,6 +1552,7 @@
     margin-left: 6px;
     font-style: italic;
 }
+
 .form-section-divider {
     height: 1px;
     background: #e5e7eb;
@@ -1520,8 +1565,11 @@
     grid-template-columns: 1fr 1fr;
     gap: 16px;
 }
+
 @media (max-width: 560px) {
-    .form-row-2col { grid-template-columns: 1fr; }
+    .form-row-2col {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* Uraian grid */
@@ -1530,8 +1578,11 @@
     grid-template-columns: 1fr 1fr;
     gap: 12px 20px;
 }
+
 @media (max-width: 560px) {
-    .uraian-grid { grid-template-columns: 1fr; }
+    .uraian-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .uraian-field {
@@ -1548,14 +1599,46 @@
     letter-spacing: 0.02em;
     text-transform: uppercase;
 }
-.uraian-badge.prog        { background: #dbeafe; color: #1e40af; }
-.uraian-badge.sub-prog    { background: #e0e7ff; color: #3730a3; }
-.uraian-badge.output      { background: #fef3c7; color: #92400e; }
-.uraian-badge.sub-output  { background: #fde68a; color: #78350f; }
-.uraian-badge.komponen    { background: #dcfce7; color: #15803d; }
-.uraian-badge.sub-komponen{ background: #d1fae5; color: #065f46; }
-.uraian-badge.akun        { background: #ffe4e6; color: #9f1239; }
-.uraian-badge.item        { background: #f0fdf4; color: #166534; }
+
+.uraian-badge.prog {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.uraian-badge.sub-prog {
+    background: #e0e7ff;
+    color: #3730a3;
+}
+
+.uraian-badge.output {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.uraian-badge.sub-output {
+    background: #fde68a;
+    color: #78350f;
+}
+
+.uraian-badge.komponen {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.uraian-badge.sub-komponen {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.uraian-badge.akun {
+    background: #ffe4e6;
+    color: #9f1239;
+}
+
+.uraian-badge.item {
+    background: #f0fdf4;
+    color: #166534;
+}
 
 .input-help-warn {
     display: block;
@@ -1572,15 +1655,28 @@
     gap: 6px;
     margin: 6px 0 8px 0;
 }
+
 .uraian-tag {
     padding: 2px 10px;
     border-radius: 12px;
     font-size: 0.72rem;
     font-weight: 600;
 }
-.uraian-tag.prog  { background: #dbeafe; color: #1e40af; }
-.uraian-tag.out   { background: #fef3c7; color: #92400e; }
-.uraian-tag.komp  { background: #dcfce7; color: #15803d; }
+
+.uraian-tag.prog {
+    background: #dbeafe;
+    color: #1e40af;
+}
+
+.uraian-tag.out {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.uraian-tag.komp {
+    background: #dcfce7;
+    color: #15803d;
+}
 
 /* ============================================
    REPORT MODAL - Government Style
@@ -1602,23 +1698,30 @@
     border-radius: 16px 16px 0 0;
     flex-shrink: 0;
 }
+
 .report-topbar-left {
     display: flex;
     align-items: center;
     gap: 14px;
 }
-.report-topbar-icon { font-size: 1.8rem; }
+
+.report-topbar-icon {
+    font-size: 1.8rem;
+}
+
 .report-topbar-title {
     font-size: 1.15rem;
     font-weight: 700;
     color: #fff;
     line-height: 1.2;
 }
+
 .report-topbar-sub {
     font-size: 0.82rem;
-    color: rgba(255,255,255,0.65);
+    color: rgba(255, 255, 255, 0.65);
     margin-top: 2px;
 }
+
 .report-topbar-actions {
     display: flex;
     align-items: center;
@@ -1628,9 +1731,9 @@
 /* Print/Download button */
 .btn-report-action.print {
     padding: 9px 18px;
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     color: #fff;
-    border: 1px solid rgba(255,255,255,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 8px;
     font-size: 0.88rem;
     font-weight: 600;
@@ -1640,19 +1743,21 @@
     align-items: center;
     gap: 7px;
 }
+
 .btn-report-action.print:hover {
-    background: rgba(255,255,255,0.28);
+    background: rgba(255, 255, 255, 0.28);
     transform: translateY(-1px);
 }
 
 /* Fix close btn in topbar */
 .report-topbar .modal-close {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
     color: #fff;
     flex-shrink: 0;
 }
+
 .report-topbar .modal-close:hover {
-    background: rgba(255,255,255,0.22);
+    background: rgba(255, 255, 255, 0.22);
 }
 
 /* Body scroll area for report */
@@ -1678,6 +1783,7 @@
     padding-bottom: 12px;
     border-bottom: 2px solid #1e3a5f;
 }
+
 .gov-report-header h1 {
     font-size: 14px;
     font-weight: bold;
@@ -1686,6 +1792,7 @@
     margin-bottom: 5px;
     color: #1e3a5f;
 }
+
 .gov-report-header p {
     font-size: 11px;
     color: #444;
@@ -1697,18 +1804,27 @@
     margin-bottom: 14px;
     position: relative;
 }
+
 .gov-meta-table table {
     width: auto;
     border-collapse: collapse;
     font-size: 11px;
 }
+
 .gov-meta-table td {
     padding: 2px 5px;
     vertical-align: top;
     line-height: 1.5;
 }
-.gov-meta-table td:first-child { min-width: 110px; }
-.gov-meta-table td:nth-child(2) { width: 12px; }
+
+.gov-meta-table td:first-child {
+    min-width: 110px;
+}
+
+.gov-meta-table td:nth-child(2) {
+    width: 12px;
+}
+
 .gov-hal {
     position: absolute;
     right: 0;
@@ -1723,12 +1839,14 @@
     border-radius: 8px;
     border: 1px solid #c8d4e0;
 }
+
 .gov-table {
     width: 100%;
     border-collapse: collapse;
     font-size: 11px;
     min-width: 750px;
 }
+
 .gov-table th {
     background: #1e3a5f;
     color: #fff;
@@ -1739,12 +1857,33 @@
     font-size: 11px;
     line-height: 1.3;
 }
-.gov-table .th-uraian  { width: 40%; text-align: left; }
-.gov-table .th-pagu    { width: 12%; }
-.gov-table .th-lock    { width: 8%; }
-.gov-table .th-realisasi-group { background: #1a5276; }
-.gov-table .th-realisasi-sub { background: #1a5276; font-size: 10px; }
-.gov-table .th-sisa    { width: 12%; background: #c0392b; }
+
+.gov-table .th-uraian {
+    width: 40%;
+    text-align: left;
+}
+
+.gov-table .th-pagu {
+    width: 12%;
+}
+
+.gov-table .th-lock {
+    width: 8%;
+}
+
+.gov-table .th-realisasi-group {
+    background: #1a5276;
+}
+
+.gov-table .th-realisasi-sub {
+    background: #1a5276;
+    font-size: 10px;
+}
+
+.gov-table .th-sisa {
+    width: 12%;
+    background: #c0392b;
+}
 
 .gov-table td {
     padding: 5px 8px;
@@ -1752,8 +1891,16 @@
     vertical-align: top;
     line-height: 1.4;
 }
-.td-uraian { text-align: left; }
-.td-num    { text-align: right; font-family: 'Courier New', monospace; white-space: nowrap; }
+
+.td-uraian {
+    text-align: left;
+}
+
+.td-num {
+    text-align: right;
+    font-family: 'Courier New', monospace;
+    white-space: nowrap;
+}
 
 /* Row types */
 .gov-row-jumlah td {
@@ -1762,49 +1909,58 @@
     font-weight: bold;
     border-color: #2a4d7a;
 }
+
 .gov-row-program td {
     background: #d4e2f0;
     font-weight: bold;
     color: #1a2e4a;
     border-color: #b8cfe0;
 }
+
 .gov-row-sub-program td {
     background: #e8ecf3;
     font-weight: normal;
     color: #1a2e4a;
     border-color: #c8d4e5;
 }
+
 .gov-row-output td {
     background: #fef9e7;
     font-weight: bold;
     border-color: #f0e0a0;
 }
+
 .gov-row-sub-output td {
     background: #fef3c7;
     font-weight: bold;
     color: #b45309;
     border-color: #f0e0a0;
 }
+
 .gov-row-komponen td {
     background: #f0f7f4;
     font-weight: 600;
     border-color: #d4e8df;
 }
+
 .gov-row-akun td {
     background: #fff;
     font-weight: normal;
     border-color: #e5e7eb;
 }
+
 .gov-row-item td {
     background: #fafafa;
     border-color: #e5e7eb;
 }
+
 .gov-row-rincian td {
     background: #fafafa;
     font-style: italic;
     color: #555;
     border-color: #e5e7eb;
 }
+
 .gov-row-total td {
     background: #1e3a5f;
     color: #fff;
@@ -1812,17 +1968,42 @@
     border-color: #2a4d7a;
 }
 
-.gov-bold { font-weight: bold !important; }
-.gov-orange { color: #cc6600 !important; }
-.gov-red { color: #cc0000 !important; }
+.gov-bold {
+    font-weight: bold !important;
+}
+
+.gov-orange {
+    color: #cc6600 !important;
+}
+
+.gov-red {
+    color: #cc0000 !important;
+}
 
 /* indent classes */
-.indent-1 { padding-left: 20px !important; }
-.indent-2 { padding-left: 36px !important; }
-.indent-3 { padding-left: 52px !important; }
-.indent-4 { padding-left: 68px !important; }
-.indent-5 { padding-left: 84px !important; }
-.indent-6 { padding-left: 100px !important; }
+.indent-1 {
+    padding-left: 20px !important;
+}
+
+.indent-2 {
+    padding-left: 36px !important;
+}
+
+.indent-3 {
+    padding-left: 52px !important;
+}
+
+.indent-4 {
+    padding-left: 68px !important;
+}
+
+.indent-5 {
+    padding-left: 84px !important;
+}
+
+.indent-6 {
+    padding-left: 100px !important;
+}
 
 /* Grouped akun header in report rincian */
 .gov-row-rincian-akun td {
@@ -1839,10 +2020,12 @@
     font-weight: 600;
     margin-top: 2px;
 }
+
 .gov-output-label {
     color: #b35900 !important;
     font-style: italic;
 }
+
 .gov-footnote {
     font-size: 10px;
     color: #555;
@@ -1864,10 +2047,19 @@
    PRINT STYLES
    ============================================ */
 @media print {
-    .modal-overlay { display: none !important; }
-    body * { visibility: hidden; }
+    .modal-overlay {
+        display: none !important;
+    }
+
+    body * {
+        visibility: hidden;
+    }
+
     .gov-report-print-area,
-    .gov-report-print-area * { visibility: visible; }
+    .gov-report-print-area * {
+        visibility: visible;
+    }
+
     .gov-report-print-area {
         position: fixed;
         left: 0;
@@ -1901,11 +2093,12 @@
     white-space: nowrap;
     letter-spacing: 0.01em;
 }
+
 .btn-add-uraian:hover {
     background: #bbf7d0;
     border-color: #4ade80;
     transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(21,128,61,0.15);
+    box-shadow: 0 2px 6px rgba(21, 128, 61, 0.15);
 }
 
 .uraian-action-btns {
@@ -1928,11 +2121,12 @@
     align-items: center;
     justify-content: center;
 }
+
 .btn-delete-uraian:hover {
     background: #fecaca;
     border-color: #f87171;
     transform: translateY(-1px);
-    box-shadow: 0 2px 6px rgba(220,38,38,0.15);
+    box-shadow: 0 2px 6px rgba(220, 38, 38, 0.15);
 }
 
 .input-help-empty {
@@ -1942,6 +2136,7 @@
     margin-top: 5px;
     font-style: italic;
 }
+
 .input-help-empty strong {
     color: #15803d;
     font-style: normal;
@@ -1959,7 +2154,7 @@
     border-radius: 16px;
     width: 100%;
     max-width: 520px;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
     animation: modalSlideIn 0.25s ease;
     overflow: hidden;
 }
@@ -1972,11 +2167,13 @@
     background: #f8fafc;
     border-bottom: 1px solid #e5e7eb;
 }
+
 .uraian-mini-title {
     display: flex;
     align-items: center;
     gap: 10px;
 }
+
 .uraian-mini-heading {
     font-size: 1rem;
     font-weight: 700;
@@ -2007,9 +2204,11 @@
     gap: 12px;
     align-items: flex-start;
 }
+
 .uraian-mini-row .form-group {
     margin-bottom: 0;
 }
+
 .uraian-mini-row .form-group input {
     width: 100%;
     padding: 10px 14px;
@@ -2019,11 +2218,13 @@
     transition: border-color 0.2s;
     background: #f9fafb;
 }
+
 .uraian-mini-row .form-group input:focus {
     outline: none;
     border-color: #1e3a5f;
     background: #fff;
 }
+
 .uraian-mini-row .form-group label {
     display: block;
     font-size: 0.82rem;
@@ -2040,6 +2241,7 @@
     border-top: 1px solid #e5e7eb;
     background: #f8fafc;
 }
+
 .uraian-mini-footer .btn-submit:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -2061,27 +2263,32 @@
     margin-bottom: 16px;
     animation: slideDown 0.3s ease;
 }
+
 .migration-banner-icon {
     font-size: 1.4rem;
     flex-shrink: 0;
     line-height: 1;
     margin-top: 2px;
 }
+
 .migration-banner-content {
     flex: 1;
 }
+
 .migration-banner-content strong {
     font-size: 0.92rem;
     color: #92400e;
     display: block;
     margin-bottom: 4px;
 }
+
 .migration-banner-content p {
     font-size: 0.82rem;
     color: #b45309;
     margin: 0 0 10px 0;
     line-height: 1.4;
 }
+
 .migration-steps {
     display: flex;
     align-items: center;
@@ -2090,7 +2297,11 @@
     color: #78350f;
     margin-bottom: 6px;
 }
-.migration-steps:last-child { margin-bottom: 0; }
+
+.migration-steps:last-child {
+    margin-bottom: 0;
+}
+
 .migration-step {
     width: 20px;
     height: 20px;
@@ -2104,12 +2315,17 @@
     justify-content: center;
     flex-shrink: 0;
 }
+
 .migration-steps a {
     color: #1d4ed8;
     text-decoration: underline;
     font-weight: 600;
 }
-.migration-steps a:hover { color: #1e40af; }
+
+.migration-steps a:hover {
+    color: #1e40af;
+}
+
 .migration-steps code {
     background: #fef3c7;
     border: 1px solid #fde68a;
@@ -2191,7 +2407,8 @@
     background-color: #ffffff !important;
     transition: all 0.2s ease;
     width: 100%;
-    height: 34px; /* Fixed height for formal look */
+    height: 34px;
+    /* Fixed height for formal look */
 }
 
 .formal-body textarea {
@@ -2318,7 +2535,8 @@
 
 .rincian-field-with-actions {
     flex: 1;
-    min-width: 0; /* Allow shrinking */
+    min-width: 0;
+    /* Allow shrinking */
 }
 
 .rincian-mini-actions {
@@ -2327,7 +2545,8 @@
     margin-top: 4px;
 }
 
-.btn-mini-add, .btn-mini-del {
+.btn-mini-add,
+.btn-mini-del {
     padding: 1px 6px;
     font-size: 0.65rem;
     font-weight: 700;
@@ -2384,4 +2603,3 @@
     height: 30px !important;
     font-size: 0.82rem !important;
 }
-

@@ -140,6 +140,8 @@ const Dashboard = () => {
     const totalPagu = sectionBudgets.reduce((sum, s) => sum + (s.totalPagu || 0), 0);
     const terpakai = sectionBudgets.reduce((sum, s) => sum + (s.terpakai || 0), 0);
     const sisa = totalPagu - terpakai;
+    const totalSisaSementara = sectionBudgets.reduce((sum, s) => sum + (s.sisaSementara || 0), 0);
+    const totalSisaBersih = sectionBudgets.reduce((sum, s) => sum + (s.sisaBersih || 0), 0);
 
     // Calendar helper functions
     const getDaysInMonth = (date) => {
@@ -340,11 +342,18 @@ const Dashboard = () => {
                             <span className="budget-value">{formatCurrency(terpakai)}</span>
                         </div>
                     </div>
-                    <div className="budget-card remaining">
+                    <div className="budget-card remaining sisa-sementara-card">
+                        <div className="budget-icon"><FlatIcon name="hourglass" size={22} /></div>
+                        <div className="budget-info">
+                            <span className="budget-label">Sisa Sementara</span>
+                            <span className={`budget-value ${totalSisaSementara < 0 ? 'negative' : ''}`}>{formatCurrency(totalSisaSementara)}</span>
+                        </div>
+                    </div>
+                    <div className="budget-card remaining sisa-bersih-card">
                         <div className="budget-icon"><FlatIcon name="shield" size={22} /></div>
                         <div className="budget-info">
-                            <span className="budget-label">Sisa Anggaran</span>
-                            <span className="budget-value">{formatCurrency(sisa)}</span>
+                            <span className="budget-label">Sisa Bersih</span>
+                            <span className={`budget-value ${totalSisaBersih < 0 ? 'negative' : ''}`}>{formatCurrency(totalSisaBersih)}</span>
                         </div>
                     </div>
                 </div>
@@ -439,6 +448,8 @@ const Dashboard = () => {
                                 <div className="section-amounts">
                                     <span className="pagu">Pagu: {formatCurrency(section.totalPagu)}</span>
                                     <span className="terpakai">Terpakai: {formatCurrency(section.terpakai)}</span>
+                                    <span className={`sisa-sm ${(section.sisaSementara || 0) < 0 ? 'neg' : ''}`}>S.Sementara: {formatCurrency(section.sisaSementara || 0)}</span>
+                                    <span className={`sisa-br ${(section.sisaBersih || 0) < 0 ? 'neg' : ''}`}>S.Bersih: {formatCurrency(section.sisaBersih || 0)}</span>
                                 </div>
                             </div>
                             <div className="section-progress">
